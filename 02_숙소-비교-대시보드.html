@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏨 숙소 비교 대시보드 — 외할머니 여행 (6/2 출발)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --parchment:#F7F2EA; --cream:#FDF8F0; --ink:#2C1810; --ink-light:#5C3D2E;
+    --warm-grey:#9B8575; --border:rgba(44,24,16,0.12); --shadow:rgba(44,24,16,0.08);
+    --confirmed:#1A6B3C; --alert:#B03A2E; --pending:#B7711A; --planb:#6B3FA0;
+    --ocean:#1B4F72; --forest:#2D6A4F; --slate:#34495E; --teal:#1A7568;
+    --gold:#C9A961;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;} html{scroll-behavior:smooth;}
+  body{background:var(--parchment);color:var(--ink);font-family:'Outfit','Noto Sans KR',sans-serif;font-size:15px;line-height:1.65;padding-bottom:120px;}
+  /* === HEADER === */
+  .top-bar{background:linear-gradient(90deg,#1A6B3C,#1B4F72);color:#fff;text-align:center;padding:10px 20px;font-size:12px;font-weight:700;letter-spacing:1px;}
+  .hero{background:linear-gradient(150deg,#1A6B3C 0%,#1B4F72 60%,#6B3FA0 100%);padding:48px 40px 60px;text-align:center;position:relative;overflow:hidden;}
+  .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");}
+  .hero h1{font-size:clamp(24px,4.5vw,40px);font-weight:700;color:#fff;margin-bottom:6px;position:relative;}
+  .hero-sub{font-size:13px;color:rgba(255,255,255,.85);margin-bottom:20px;position:relative;}
+  .hero-stats{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;position:relative;}
+  .hstat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:10px 18px;text-align:center;backdrop-filter:blur(6px);}
+  .hstat-val{font-size:20px;font-weight:700;color:#fff;line-height:1;}
+  .hstat-lbl{font-size:10px;color:rgba(255,255,255,.75);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;}
+  /* === NAV === */
+  .nav-bar{background:#fff;border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0;overflow-x:auto;position:sticky;top:0;z-index:90;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+  .nav-link{padding:13px 14px;font-size:12px;font-weight:600;color:var(--warm-grey);white-space:nowrap;border-bottom:2px solid transparent;cursor:pointer;transition:all .2s;}
+  .nav-link:hover,.nav-link.active{color:var(--ocean);border-bottom-color:var(--ocean);}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px;}
+  .section{padding:36px 0;}
+  .slbl{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--warm-grey);margin-bottom:6px;font-weight:700;}
+  .stitle{font-size:22px;font-weight:700;color:var(--ink);margin-bottom:14px;}
+  .sdesc{font-size:13px;color:var(--warm-grey);margin-bottom:18px;}
+  .divider{height:1px;background:var(--border);margin:32px 0;}
+  /* === SUMMARY CARDS === */
+  .sum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+  .scard{border-radius:14px;padding:18px;box-shadow:0 2px 12px var(--shadow);position:relative;overflow:hidden;}
+  .sc-temp{background:linear-gradient(135deg,rgba(183,113,26,.12),rgba(183,113,26,.04));border:1px solid rgba(183,113,26,.22);}
+  .sc-market{background:linear-gradient(135deg,rgba(27,79,114,.1),rgba(27,79,114,.04));border:1px solid rgba(27,79,114,.22);}
+  .sc-adj{background:linear-gradient(135deg,rgba(26,107,60,.1),rgba(26,107,60,.04));border:1px solid rgba(26,107,60,.22);}
+  .sc-pick{background:linear-gradient(135deg,var(--planb),var(--ocean));color:#fff;border:none;}
+  .scard-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:.8;margin-bottom:6px;}
+  .sc-temp .scard-lbl{color:var(--pending);}
+  .sc-market .scard-lbl{color:var(--ocean);}
+  .sc-adj .scard-lbl{color:var(--confirmed);}
+  .scard-amt{font-size:24px;font-weight:700;line-height:1.1;margin-bottom:3px;color:var(--ink);}
+  .sc-pick .scard-amt{color:#fff;}
+  .scard-amt-sub{font-size:13px;font-weight:600;color:var(--warm-grey);margin-bottom:6px;}
+  .sc-pick .scard-amt-sub{color:rgba(255,255,255,.85);}
+  .scard-note{font-size:11px;line-height:1.5;color:var(--ink-light);opacity:.85;}
+  .sc-pick .scard-note{color:rgba(255,255,255,.85);}
+  /* === DELTA BAR === */
+  .delta-row{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;font-size:12px;border-radius:8px;margin-top:8px;background:rgba(0,0,0,0.03);}
+  .delta-pos{color:var(--confirmed);font-weight:700;}
+  .delta-neg{color:var(--alert);font-weight:700;}
+  /* === CITY CARD === */
+  .city{background:#fff;border:1px solid var(--border);border-radius:18px;margin-bottom:26px;box-shadow:0 4px 16px var(--shadow);overflow:hidden;}
+  .city-head{padding:20px 24px;background:linear-gradient(90deg,rgba(27,79,114,.05),transparent);border-bottom:1px solid var(--border);}
+  .city-row{display:flex;align-items:center;flex-wrap:wrap;gap:12px;}
+  .city-flag{font-size:24px;}
+  .city-name{font-size:20px;font-weight:700;color:var(--ink);}
+  .city-dates{font-size:12px;color:var(--warm-grey);font-weight:600;}
+  .nights-pill{background:var(--ocean);color:#fff;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:1px;}
+  .city-stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .stat-pill{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:11px;}
+  .stat-pill strong{font-size:13px;color:var(--ink);font-weight:700;margin-left:4px;}
+  .pill-temp{background:rgba(183,113,26,.08);border-color:rgba(183,113,26,.25);color:var(--pending);}
+  .pill-mkt{background:rgba(27,79,114,.08);border-color:rgba(27,79,114,.25);color:var(--ocean);}
+  .pill-adj{background:rgba(26,107,60,.08);border-color:rgba(26,107,60,.25);color:var(--confirmed);}
+  /* Verdict line */
+  .verdict{margin-top:14px;padding:10px 14px;border-radius:10px;font-size:12.5px;line-height:1.6;}
+  .v-good{background:rgba(26,107,60,.07);border-left:3px solid var(--confirmed);color:var(--ink-light);}
+  .v-warn{background:rgba(183,113,26,.07);border-left:3px solid var(--pending);color:var(--ink-light);}
+  .v-bad{background:rgba(176,58,46,.07);border-left:3px solid var(--alert);color:var(--ink-light);}
+  /* Sort + recommend bar */
+  .ctrl-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:12px 24px;background:var(--cream);border-bottom:1px solid var(--border);font-size:12px;}
+  .ctrl-grp{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+  .ctrl-lbl{color:var(--warm-grey);font-weight:600;font-size:11px;letter-spacing:1px;text-transform:uppercase;margin-right:4px;}
+  .ctrl-btn{padding:5px 11px;border-radius:7px;border:1px solid var(--border);background:#fff;cursor:pointer;font-size:11px;font-weight:600;color:var(--ink-light);transition:all .15s;font-family:inherit;}
+  .ctrl-btn:hover{background:var(--parchment);}
+  .ctrl-btn.active{background:var(--ocean);color:#fff;border-color:var(--ocean);}
+  .ctrl-btn.rec-budget.active{background:var(--confirmed);border-color:var(--confirmed);}
+  .ctrl-btn.rec-rated.active{background:var(--gold);border-color:var(--gold);}
+  /* Candidate grid */
+  .cand-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:14px;padding:18px 24px 22px;}
+  .cand{background:var(--cream);border:1.5px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:all .2s;position:relative;}
+  .cand:hover{transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow);border-color:rgba(27,79,114,.3);}
+  .cand.selected{border-color:var(--ocean);background:#fff;box-shadow:0 6px 20px rgba(27,79,114,.18);}
+  .cand.selected::before{content:'✓';position:absolute;top:10px;right:10px;width:24px;height:24px;background:var(--ocean);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;}
+  /* Featured (최상위 추천) */
+  .cand.featured{border:2px solid var(--gold);background:linear-gradient(180deg,rgba(201,169,97,0.10) 0%,#FFFEFA 60%);box-shadow:0 6px 22px rgba(201,169,97,0.20);position:relative;}
+  .cand.featured.selected{border-color:var(--gold);background:linear-gradient(180deg,rgba(201,169,97,0.16) 0%,#fff 60%);}
+  .cand.featured.selected::before{background:var(--gold);}
+  .featured-ribbon{position:absolute;top:-1px;left:-1px;background:linear-gradient(135deg,var(--gold),#B8954D);color:#fff;font-size:9.5px;font-weight:700;letter-spacing:1.2px;padding:4px 10px 4px 9px;border-radius:11px 0 11px 0;text-transform:uppercase;display:flex;align-items:center;gap:3px;box-shadow:0 2px 6px rgba(201,169,97,0.35);}
+  .featured-ribbon::before{content:'★';font-size:11px;}
+  /* Availability tag */
+  .avail-tag{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:5px;letter-spacing:.5px;text-transform:uppercase;margin-left:6px;}
+  .av-1{background:#B03A2E;color:#fff;}
+  .av-2{background:#B7711A;color:#fff;}
+  .av-3{background:rgba(26,107,60,.15);color:var(--confirmed);}
+  .av-ok{background:rgba(26,107,60,.15);color:var(--confirmed);}
+  .av-check{background:rgba(52,73,94,.12);color:var(--slate);}
+  /* Urgency Dashboard */
+  .urg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+  .urg-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px 20px;box-shadow:0 2px 12px var(--shadow);position:relative;overflow:hidden;}
+  .urg-card.lvl-critical{border-left:5px solid var(--alert);}
+  .urg-card.lvl-high{border-left:5px solid var(--pending);}
+  .urg-card.lvl-mid{border-left:5px solid var(--ocean);}
+  .urg-card.lvl-low{border-left:5px solid var(--confirmed);}
+  .urg-rank{position:absolute;top:14px;right:14px;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .urg-card.lvl-critical .urg-rank{background:var(--alert);}
+  .urg-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+  .urg-flag{font-size:18px;}
+  .urg-name{font-size:15px;font-weight:700;color:var(--ink);}
+  .urg-tier{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;letter-spacing:.8px;margin-bottom:10px;}
+  .tier-critical{background:rgba(176,58,46,.1);color:var(--alert);border:1px solid rgba(176,58,46,.3);}
+  .tier-high{background:rgba(183,113,26,.1);color:var(--pending);border:1px solid rgba(183,113,26,.3);}
+  .tier-mid{background:rgba(27,79,114,.1);color:var(--ocean);border:1px solid rgba(27,79,114,.3);}
+  .tier-low{background:rgba(26,107,60,.1);color:var(--confirmed);border:1px solid rgba(26,107,60,.3);}
+  .urg-meta{display:flex;gap:14px;margin-bottom:8px;font-size:11px;color:var(--warm-grey);}
+  .urg-meta b{color:var(--ink);font-weight:700;}
+  .urg-stock-bar{height:8px;background:rgba(0,0,0,.07);border-radius:100px;overflow:hidden;display:flex;margin:8px 0;}
+  .stock-1{background:var(--alert);height:100%;}
+  .stock-2{background:var(--pending);height:100%;}
+  .stock-rest{background:var(--confirmed);height:100%;}
+  .urg-stock-legend{display:flex;justify-content:space-between;font-size:10px;color:var(--warm-grey);margin-bottom:8px;}
+  .urg-reason{font-size:12px;color:var(--ink-light);line-height:1.55;background:var(--cream);padding:8px 10px;border-radius:8px;}
+  .urg-reason strong{color:var(--ink);}
+  .cand-soldout{opacity:.5;cursor:not-allowed;}
+  .cand-soldout::after{content:'매진';position:absolute;top:10px;right:10px;background:var(--alert);color:#fff;padding:2px 9px;border-radius:6px;font-size:10px;font-weight:700;}
+  .cand-soldout:hover{transform:none;box-shadow:none;border-color:var(--border);}
+  .cand-rate{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
+  .rate-badge{background:var(--ocean);color:#fff;padding:2px 7px;border-radius:5px;font-size:11px;font-weight:700;}
+  .rate-perfect{background:var(--confirmed);}
+  .rate-very{background:var(--ocean);}
+  .rate-good{background:var(--slate);}
+  .rate-rev{font-size:10px;color:var(--warm-grey);font-weight:600;}
+  .cand-name{font-size:14px;font-weight:600;color:var(--ink);min-height:38px;line-height:1.3;}
+  .cand-loc{font-size:10.5px;color:var(--warm-grey);margin:6px 0 10px;line-height:1.5;}
+  .cand-loc-tag{display:inline-block;background:rgba(0,0,0,.05);padding:1px 7px;border-radius:6px;font-size:10px;margin-right:3px;color:var(--ink-light);}
+  .cand-price{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px dashed var(--border);padding-top:10px;}
+  .cand-pn{font-size:11px;color:var(--warm-grey);}
+  .cand-pn-amt{font-size:18px;font-weight:700;color:var(--ink);font-family:'Outfit',sans-serif;}
+  .cand-total{text-align:right;}
+  .cand-total-amt{font-size:13px;font-weight:600;color:var(--ink-light);}
+  .cand-total-lbl{font-size:9px;color:var(--warm-grey);letter-spacing:1px;text-transform:uppercase;}
+  .cand-status{margin-top:10px;text-align:center;font-size:10px;font-weight:700;padding:4px 8px;border-radius:6px;letter-spacing:.5px;}
+  .st-good{background:rgba(26,107,60,.1);color:var(--confirmed);}
+  .st-fit{background:rgba(27,79,114,.1);color:var(--ocean);}
+  .st-warn{background:rgba(183,113,26,.1);color:var(--pending);}
+  .st-bad{background:rgba(176,58,46,.1);color:var(--alert);}
+  .strike{text-decoration:line-through;color:var(--warm-grey);font-size:11px;margin-right:4px;}
+  /* === BOTTOM TRAY === */
+  .tray{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,var(--planb),var(--ocean));color:#fff;padding:14px 24px;box-shadow:0 -4px 20px rgba(0,0,0,.15);z-index:100;}
+  .tray-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+  .tray-l{display:flex;gap:18px;align-items:baseline;flex-wrap:wrap;}
+  .tray-stat-lbl{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;opacity:.75;font-weight:700;}
+  .tray-stat-val{font-size:20px;font-weight:700;line-height:1.2;font-family:'Outfit',sans-serif;}
+  .tray-divider{width:1px;height:32px;background:rgba(255,255,255,.25);}
+  .tray-progress{font-size:11px;opacity:.85;}
+  .tray-r{display:flex;gap:8px;}
+  .tray-btn{padding:8px 14px;border-radius:8px;background:rgba(255,255,255,.18);color:#fff;border:1px solid rgba(255,255,255,.3);font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;}
+  .tray-btn:hover{background:rgba(255,255,255,.28);}
+  .tray-btn.primary{background:#fff;color:var(--planb);}
+  /* delta colors */
+  .delta-pos-light{color:#A6E5C2;}
+  .delta-neg-light{color:#FFC2BB;}
+  /* === RECOMMENDATIONS === */
+  .rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+  .rec-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px 18px;box-shadow:0 2px 10px var(--shadow);}
+  .rec-icon{font-size:22px;margin-bottom:6px;}
+  .rec-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+  .rec-desc{font-size:12px;color:var(--ink-light);line-height:1.6;}
+  /* === ADJUSTMENT TABLE === */
+  .adj-tbl{width:100%;border-collapse:collapse;font-size:13px;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);}
+  .adj-tbl thead{background:var(--ink);color:#fff;}
+  .adj-tbl th{padding:10px 12px;text-align:left;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;}
+  .adj-tbl td{padding:10px 12px;border-bottom:1px solid var(--border);background:var(--cream);}
+  .adj-tbl tr:last-child td{border-bottom:none;background:rgba(26,107,60,.06);font-weight:700;}
+  .adj-up{color:var(--alert);font-weight:700;}
+  .adj-dn{color:var(--confirmed);font-weight:700;}
+  .adj-eq{color:var(--warm-grey);}
+  /* Footer */
+  footer{background:var(--ink);color:rgba(255,255,255,.6);text-align:center;padding:24px 20px;font-size:12px;margin-top:30px;}
+  footer strong{color:rgba(255,255,255,.85);}
+  @media(max-width:600px){
+    .hero{padding:38px 18px 50px;}
+    .nav-link{padding:11px 10px;font-size:11px;}
+    .city-name{font-size:17px;}
+    .cand-grid{grid-template-columns:1fr 1fr;gap:10px;padding:14px;}
+    .cand{padding:12px;}
+    .cand-name{font-size:12.5px;min-height:34px;}
+    .tray-stat-val{font-size:16px;}
+    .tray-l{gap:10px;}
+  }
+</style>
+</head>
+<body>
+<div class="top-bar">🏨 숙소 비교 대시보드 — Hotels.com 시세 분석 (2026/04 기준 · 3인 · 발칸·알프스 11박)</div>
+
+<section class="hero">
+  <h1>숙소 비교 & 예산 시뮬레이터</h1>
+  <p class="hero-sub">6개 도시 · 11박 · 후보 34개 (★ 최상위 추천 1개 포함) · 클릭으로 선택 → 실시간 합계 계산</p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-val" id="heroNights">11박</div><div class="hstat-lbl">예약 필요 박수</div></div>
+    <div class="hstat"><div class="hstat-val">€1,795</div><div class="hstat-lbl">임시 예산 평균</div></div>
+    <div class="hstat"><div class="hstat-val">€1,778</div><div class="hstat-lbl">시세 평균 (실제)</div></div>
+    <div class="hstat"><div class="hstat-val" style="color:#A6E5C2;">−€17</div><div class="hstat-lbl">평균 시 예산 여유</div></div>
+  </div>
+</section>
+
+<nav class="nav-bar">
+  <span class="nav-link active" onclick="goTo('summary')">📊 요약</span>
+  <span class="nav-link" onclick="goTo('urgency')">🚨 예약 긴급도</span>
+  <span class="nav-link" onclick="goTo('insights')">💡 인사이트</span>
+  <span class="nav-link" onclick="goTo('adjustment')">🔁 예산 조정안</span>
+  <span class="nav-link" onclick="goTo('city-dubrovnik')">🇭🇷 두브로브니크</span>
+  <span class="nav-link" onclick="goTo('city-split')">🇭🇷 스플리트</span>
+  <span class="nav-link" onclick="goTo('city-zadar')">🇭🇷 자다르</span>
+  <span class="nav-link" onclick="goTo('city-plitvice')">🇭🇷 플리트비체</span>
+  <span class="nav-link" onclick="goTo('city-slovenia')">🇸🇮 슬로베니아</span>
+  <span class="nav-link" onclick="goTo('city-milano')">🇮🇹 밀라노</span>
+</nav>
+
+<div class="wrap">
+
+  <!-- ═══════════════ 요약 ═══════════════ -->
+  <div class="section" id="summary">
+    <p class="slbl">Overview</p>
+    <h2 class="stitle">📊 예산 요약 — 임시 vs 시세 vs 조정안</h2>
+    <p class="sdesc">네 가지 기준으로 예산을 한눈에 비교합니다. ⓐ 기존에 잡았던 임시 예산, ⓑ Hotels.com 실제 시세, ⓒ 권장 조정안, ⓓ 현재 선택한 후보의 합계.</p>
+    <div class="sum-grid">
+      <div class="scard sc-temp">
+        <div class="scard-lbl">ⓐ 임시 예산 (기존)</div>
+        <div class="scard-amt">€1,570 ~ €2,020</div>
+        <div class="scard-amt-sub">평균 €1,795</div>
+        <div class="scard-note">두브 €450–570 · 스플 €280–360 · 자다 €130–170 · 플리 €130–160 · 슬로 €420–540 · 밀라 €160–220</div>
+      </div>
+      <div class="scard sc-market">
+        <div class="scard-lbl">ⓑ 시세 평균 (Hotels.com)</div>
+        <div class="scard-amt">€1,360 ~ €2,282</div>
+        <div class="scard-amt-sub">평균 €1,778</div>
+        <div class="scard-note">최저가 조합으로는 €1,360, 최고가 조합으로는 €2,282. 평균 시나리오는 임시 예산 평균보다 €17 절약.</div>
+      </div>
+      <div class="scard sc-adj">
+        <div class="scard-lbl">ⓒ 권장 조정안</div>
+        <div class="scard-amt">€1,430 ~ €2,110</div>
+        <div class="scard-amt-sub">평균 €1,770</div>
+        <div class="scard-note">두브 ↓ · 자다·밀라 ↑ 재배분. 도시별 시세 현실 반영하면서도 총합은 €25 절약.</div>
+      </div>
+      <div class="scard sc-pick">
+        <div class="scard-lbl">ⓓ 현재 선택한 합계</div>
+        <div class="scard-amt" id="pickTotal">€0</div>
+        <div class="scard-amt-sub" id="pickProgress">0 / 11박 선택됨</div>
+        <div class="scard-note" id="pickDelta">아래 도시 카드에서 후보를 클릭하세요. 자동으로 합계가 계산됩니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════ 예약 긴급도 ═══════════════ -->
+  <div class="section" id="urgency">
+    <p class="slbl">Booking Urgency</p>
+    <h2 class="stitle">🚨 도시별 예약 긴급도 — 어디부터 잡아야 할까?</h2>
+    <p class="sdesc">Hotels.com 캡쳐의 "We have X left at" 잔여재고 + 체크인까지 남은 일수 + 후보 풀 크기를 종합해 도시별 긴급도를 산출했습니다. <b>점수가 높을수록 빨리 예약해야 합니다.</b></p>
+    <div class="urg-grid" id="urgGrid"></div>
+    <div class="notebox" style="background:rgba(176,58,46,.06);border-left:3px solid var(--alert);border-radius:10px;padding:14px 18px;margin-top:18px;font-size:13px;line-height:1.7;color:var(--ink-light);">
+      🔴 <strong>이번 주 안에 처리 권장:</strong> 슬로베니아 → 스플리트 → 두브로브니크 → 자다르 (4개 도시 모두 "1 left" 비율 65% 이상, 스플리트는 이미 1개 매진 발생).
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════ 인사이트 ═══════════════ -->
+  <div class="section" id="insights">
+    <p class="slbl">Key Insights</p>
+    <h2 class="stitle">💡 핵심 인사이트 6가지</h2>
+    <div class="rec-grid">
+      <div class="rec-card" style="border-left:3px solid var(--gold);background:linear-gradient(180deg,rgba(201,169,97,0.06),#fff);">
+        <div class="rec-icon">★</div>
+        <div class="rec-title">두브로브니크 — 최상위 추천: <span style="color:#B8954D;">Apartments Sandito</span></div>
+        <div class="rec-desc">Zupa Dubrovačka · 풀장 · 9.0/<b>117리뷰</b> · €139/박 (€417/3박, 원가 €464에서 할인). 시내 차 15–20분, 아파트형 거점에 적합. 후보 4개 평균 €124/박, 임시 예산 평균보다 −€138 절약.</div>
+      </div>
+      <div class="rec-card" style="border-left:3px solid var(--alert);">
+        <div class="rec-icon">🔴</div>
+        <div class="rec-title">밀라노 — 평균 초과 (+€42)</div>
+        <div class="rec-desc">11개 후보 중 임시 예산(€220) 안에 드는 건 4개뿐 (Cà Bèla €189, Delizia €201, Quark €204, CSI €220). 6/15는 월요일이라 비즈니스 수요가 단단함.<br><b>권장:</b> 예산을 €190–280으로 상향.</div>
+      </div>
+      <div class="rec-card" style="border-left:3px solid var(--confirmed);">
+        <div class="rec-icon">🟢</div>
+        <div class="rec-title">스플리트 — 예산 €540 상향으로 5개 모두 조정안 안</div>
+        <div class="rec-desc">€140–270/박(€540 총)으로 상향한 결과 매진 1개 제외 5개 후보 모두 선택 가능. 가성비 Yellow house(€134), 평점 Villa Scalaria(€256·9.4점), 균형 Aspalathos(€188·9.4점·중심부) 중 위치·객실 구성에 따라 선택.<br><b>⚠️ 긴급도:</b> 이미 Boban Luxury Suites 매진. 4/5가 "1 left" 상태.</div>
+      </div>
+      <div class="rec-card" style="border-left:3px solid var(--pending);">
+        <div class="rec-icon">🟡</div>
+        <div class="rec-title">자다르 — 살짝 초과 (+€26)</div>
+        <div class="rec-desc">후보 3개 중 임시 예산(€170) 안에 드는 건 Villa Anton(€164), Villa Vicko(€170). Adria Concept는 €193이지만 평점 10.0/29리뷰로 상위.<br><b>권장:</b> 예산을 €160–200으로 약간 상향.</div>
+      </div>
+      <div class="rec-card" style="border-left:3px solid var(--ocean);">
+        <div class="rec-icon">📊</div>
+        <div class="rec-title">플리트비체 — 변동성 큼</div>
+        <div class="rec-desc">€67(House Rustico) ~ €236(Falls Cottage), <b>3.5배 차이</b>. 평균은 정확히 임시 예산과 매칭. 국립공원 새벽 입장 고려 시 <b>위치(공원 인근)</b>가 가장 중요.</div>
+      </div>
+      <div class="rec-card" style="border-left:3px solid var(--ocean);">
+        <div class="rec-icon">⚠️</div>
+        <div class="rec-title">슬로베니아 — Bovec 동선 확인</div>
+        <div class="rec-desc">Cozy Apartment Bovec는 <b>소차밸리(Soča Valley)</b>로 블레드에서 차로 약 1.5시간. 블레드·보힌 거점이라면 Apartment Jager(€125/박) 또는 Bled Paradise(€149/박)가 동선상 유리.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════ 조정안 표 ═══════════════ -->
+  <div class="section" id="adjustment">
+    <p class="slbl">Budget Re-Allocation</p>
+    <h2 class="stitle">🔁 권장 예산 재조정안</h2>
+    <p class="sdesc">두브로브니크 절약분을 자다르·밀라노에 재배분하면, 도시별 시세 현실을 반영하면서도 총합은 거의 동일합니다.</p>
+    <table class="adj-tbl">
+      <thead>
+        <tr><th>도시</th><th>박수</th><th>임시 예산/박</th><th>조정안/박</th><th>변동</th><th>임시 총액</th><th>조정 총액</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>🇭🇷 두브로브니크</td><td>3</td><td>€150–190</td><td>€100–160</td><td class="adj-dn">−€40 ~ −€30</td><td>€450–570</td><td>€300–470</td></tr>
+        <tr><td>🇭🇷 스플리트</td><td>2</td><td>€140–180</td><td>€140–270</td><td class="adj-up">±0 ~ +€90</td><td>€280–360</td><td>€280–540</td></tr>
+        <tr><td>🇭🇷 자다르</td><td>1</td><td>€130–170</td><td>€160–200</td><td class="adj-up">+€30</td><td>€130–170</td><td>€160–200</td></tr>
+        <tr><td>🇭🇷 플리트비체</td><td>1</td><td>€130–160</td><td>€100–240</td><td class="adj-eq">폭 확대</td><td>€130–160</td><td>€100–240</td></tr>
+        <tr><td>🇸🇮 슬로베니아</td><td>3</td><td>€140–180</td><td>€140–180</td><td class="adj-eq">동일</td><td>€420–540</td><td>€420–540</td></tr>
+        <tr><td>🇮🇹 밀라노</td><td>1</td><td>€160–220</td><td>€190–280</td><td class="adj-up">+€30 ~ +€60</td><td>€160–220</td><td>€190–280</td></tr>
+        <tr><td>합계</td><td>11</td><td>—</td><td>—</td><td class="adj-up">상한 +€270</td><td>€1,570–2,020</td><td>€1,450–2,310</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════ CITY CARDS ═══════════════ -->
+  <div class="section">
+    <p class="slbl">By City</p>
+    <h2 class="stitle">🏨 도시별 후보 비교 (33개)</h2>
+    <p class="sdesc">카드를 <b>클릭하면 선택</b>되어 하단 합계에 자동 반영됩니다. 도시당 1개씩 선택하면 11박 전체가 채워져요. 정렬·자동 추천도 가능합니다.</p>
+  </div>
+
+  <div id="cities"></div>
+
+</div><!-- /wrap -->
+
+<!-- ═══════════════ STICKY BOTTOM TRAY ═══════════════ -->
+<div class="tray">
+  <div class="tray-inner">
+    <div class="tray-l">
+      <div>
+        <div class="tray-stat-lbl">선택 합계</div>
+        <div class="tray-stat-val" id="trayTotal">€0</div>
+      </div>
+      <div class="tray-divider"></div>
+      <div>
+        <div class="tray-stat-lbl">진행</div>
+        <div class="tray-stat-val" id="trayProgress" style="font-size:14px;">0 / 6 도시</div>
+      </div>
+      <div class="tray-divider"></div>
+      <div>
+        <div class="tray-stat-lbl">vs 임시 평균 (€1,795)</div>
+        <div class="tray-stat-val" id="trayDeltaTemp" style="font-size:14px;">—</div>
+      </div>
+      <div class="tray-divider"></div>
+      <div>
+        <div class="tray-stat-lbl">vs 조정안 평균 (€1,770)</div>
+        <div class="tray-stat-val" id="trayDeltaAdj" style="font-size:14px;">—</div>
+      </div>
+    </div>
+    <div class="tray-r">
+      <button class="tray-btn" onclick="autoPick('budget')">💰 가성비</button>
+      <button class="tray-btn" onclick="autoPick('rated')">⭐ 평점</button>
+      <button class="tray-btn primary" onclick="pickFeatured()">★ 최상위 추천 적용</button>
+      <button class="tray-btn" onclick="clearAll()">초기화</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><strong>🏨 숙소 비교 대시보드 — 외할머니 여행</strong></p>
+  <p style="margin-top:5px;">Hotels.com 캡쳐 33건 분석 · 6개 도시 · 11박 · 3인 기준 · 2026/04 시세</p>
+  <p style="margin-top:5px;opacity:.5;font-size:11px;">돌로미티(€780, 3박)는 결제 완료 — 이 대시보드에서 제외 · 다른 확정 항목은 ‘01_여행-예산안-원본.html’ 참고</p>
+</footer>
+
+<script>
+/* ============================================================
+   DATA — Hotels.com 캡쳐에서 추출한 후보 데이터
+============================================================ */
+const TEMP_AVG = 1795;   // 임시 예산 평균
+const ADJ_AVG  = 1770;   // 조정안 평균
+
+const cities = [
+  {
+    id:'dubrovnik', flag:'🇭🇷', name:'두브로브니크', dates:'6/2 (화) → 6/5 (금)', nights:3,
+    tempLow:150, tempHigh:190, adjLow:100, adjHigh:160,
+    note:"3박 거점 · 후보 4개 (★ Sandito 최상위 추천 포함) · 시세상 매우 저렴",
+    verdict:{type:'good', text:'🟢 임시 예산보다 평균 −€138 절약 가능. ★ Sandito는 풀장+리뷰 117건으로 안정적, 시내 차 15–20분 거리.'},
+    checkin:'6/2', daysToCheckin:35, urgScore:100, urgTier:'critical', urgRank:3,
+    urgReason:'후보 4개 중 3개가 "1 left" · 6/2 체크인이 일정 중 가장 빠름 · ★ Sandito는 잔여 안정',
+    candidates:[
+      {name:'Apartments Sandito', rating:9.0, reviews:117, perNight:139, total:417, was:155, wasTotal:464, loc:'Zupa Dubrovačka · 풀장 보유 · 시내 차 15–20분 · 리뷰 117건', featured:true, avail:'ok'},
+      {name:'Apartments Djurkovic', rating:9.8, reviews:22, perNight:99, total:298, was:171, wasTotal:513, loc:'두브로브니크 외곽 · 정원·정원뷰', avail:1},
+      {name:'Apartments Grljević', rating:9.4, reviews:3, perNight:101, total:303, was:170, wasTotal:510, loc:'바닷가 인근 · 리뷰 적음 (3건)', avail:1},
+      {name:'Hedera Estate, Hedera A29', rating:9.0, reviews:2, perNight:157, total:471, loc:'시내 아파트 · 리뷰 적음 (2건)', avail:1}
+    ]
+  },
+  {
+    id:'split', flag:'🇭🇷', name:'스플리트', dates:'6/5 (금) → 6/7 (일)', nights:2,
+    tempLow:140, tempHigh:180, adjLow:140, adjHigh:270,
+    note:"2박 거점 · 후보 5개 (Boban 매진 1개 제외) · 예산 €540까지 상향 (€270/박)",
+    checkin:'6/5', daysToCheckin:38, urgScore:103, urgTier:'critical', urgRank:2,
+    urgReason:'이미 Boban Luxury Suites 매진 발생 · 5개 후보 중 4개 "1 left" · 거점 2박이라 대안 부족',
+    verdict:{type:'good', text:'🟢 예산 €540(€270/박)으로 상향했더니 5개 후보 모두 조정안 안에 들어옵니다. Aspalathos·Villa Scalaria 등 평점 균형 좋은 옵션도 선택 가능.'},
+    candidates:[
+      {name:'Boban Luxury Suites', rating:9.0, reviews:355, perNight:0, total:0, loc:'⚠️ 이미 매진 — 마감 시그널', soldout:true, avail:'soldout'},
+      {name:'Yellow house with private parking', rating:8.8, reviews:3, perNight:134, total:268, was:148, loc:'주차 가능 · 리뷰 적음 (3건)', wasTotal:296, avail:3},
+      {name:'Starlight Luxury Suites', rating:9.2, reviews:42, perNight:161, total:322, was:177, loc:'럭셔리 스위트 · 리뷰 42건', wasTotal:354, avail:1},
+      {name:'Apartment Aspalathos Centar', rating:9.4, reviews:13, perNight:188, total:376, was:276, loc:'스플리트 중심부 (Aspalathos = 옛 지명)', wasTotal:552, avail:1},
+      {name:'Prima Luce Downtown', rating:8.0, reviews:248, perNight:231, total:463, was:333, loc:'다운타운 · 리뷰 248건 (다수)', wasTotal:666, avail:1},
+      {name:'Guesthouse Villa Scalaria', rating:9.4, reviews:96, perNight:256, total:513, was:316, loc:'고급 게스트하우스 · 평점·리뷰 균형', wasTotal:631, avail:1}
+    ]
+  },
+  {
+    id:'zadar', flag:'🇭🇷', name:'자다르', dates:'6/7 (일) → 6/8 (월)', nights:1,
+    tempLow:130, tempHigh:170, adjLow:160, adjHigh:200,
+    note:"1박 통과 · 후보 3개 · 예산 살짝 상향 권장",
+    verdict:{type:'warn', text:'🟡 평균 €176으로 임시 예산 평균(€150)보다 +€26. 예산을 €160–200으로 상향 권장.'},
+    checkin:'6/7', daysToCheckin:40, urgScore:95, urgTier:'critical', urgRank:4,
+    urgReason:'후보 3개로 적음 · 2개가 "1 left", 1개가 "2 left" · 1박이지만 동선 핵심 도시',
+    candidates:[
+      {name:'Villa Anton B&B', rating:10.0, reviews:2, perNight:164, total:164, was:178, loc:'B&B · 리뷰 적음 (2건)', wasTotal:178, avail:1},
+      {name:'Villa Vicko', rating:9.0, reviews:46, perNight:170, total:170, was:199, loc:'리뷰 46건 · 안정적', wasTotal:199, avail:2},
+      {name:'Adria Concept boutique apartments', rating:10.0, reviews:29, perNight:193, total:193, loc:'부티크 아파트 · 평점 10.0', avail:1}
+    ]
+  },
+  {
+    id:'plitvice', flag:'🇭🇷', name:'플리트비체', dates:'6/8 (월) → 6/9 (화)', nights:1,
+    tempLow:130, tempHigh:160, adjLow:100, adjHigh:240,
+    note:"1박 통과 · 후보 8개 · 가격 €67–€236 (3.5배 차이) · 위치/공원 접근성 핵심",
+    verdict:{type:'good', text:'🟢 가격 변동성이 매우 큼. 평균은 임시 예산과 정확히 일치(€144 vs €145). 새벽 입장 고려 시 공원 인근 우선.'},
+    checkin:'6/8', daysToCheckin:41, urgScore:70, urgTier:'high', urgRank:5,
+    urgReason:'후보 8개로 가장 많아 상대적 여유 · 그래도 5개가 "1 left" · 가성비 옵션부터 빠르게 빠짐',
+    candidates:[
+      {name:'House Rustico', rating:9.4, reviews:644, perNight:67, total:67, was:90, loc:'리뷰 644건 · 압도적 가성비', wasTotal:90, avail:'ok'},
+      {name:'Lake House Plitvice', rating:9.4, reviews:9, perNight:95, total:95, was:105, loc:'리뷰 적음 (9건) · 호수 인근?', wasTotal:105, avail:1},
+      {name:'Plitvice Green Valley', rating:9.4, reviews:180, perNight:104, total:104, was:128, loc:'리뷰 180건 · 발코니 뷰', wasTotal:128, avail:1},
+      {name:'Plitvice Etno House', rating:8.4, reviews:490, perNight:132, total:132, loc:'전통식 게스트하우스 · 풀 보유', avail:2},
+      {name:'Guesthouse Family Bosnic', rating:9.8, reviews:30, perNight:133, total:133, was:226, loc:'가족 운영 · 평점 9.8', wasTotal:226, avail:1},
+      {name:'Mobile Homes Camping Plitvice', rating:9.8, reviews:46, perNight:192, total:192, was:238, loc:'캠핑 모바일홈 · 풀장 시설', wasTotal:238, avail:'ok'},
+      {name:'Tesla\'s Gastro House Plitvice', rating:10.0, reviews:98, perNight:197, total:197, was:291, loc:'평점 10.0 · 자쿠지 보유 · 가스트로', wasTotal:291, avail:1},
+      {name:'Plitvice Falls Cottage', rating:9.8, reviews:191, perNight:236, total:236, was:259, loc:'고급 코티지 · 자쿠지 룸', wasTotal:259, avail:1}
+    ]
+  },
+  {
+    id:'slovenia', flag:'🇸🇮', name:'슬로베니아 거점', dates:'6/9 (화) → 6/12 (금)', nights:3,
+    tempLow:140, tempHigh:180, adjLow:140, adjHigh:180,
+    note:"3박 거점 · 후보 3개 · 동선 주의 (Bovec는 소차밸리 ≠ 블레드)",
+    verdict:{type:'good', text:'🟢 평균 €155/박으로 임시 예산 평균(€160)보다 −€5 절약. Bovec 후보는 동선 확인 필수.'},
+    checkin:'6/9', daysToCheckin:42, urgScore:128, urgTier:'critical', urgRank:1,
+    urgReason:'⚠️ 후보 단 3개 · 100%가 "1 left" · 3박 거점이라 매진 시 대안이 거의 없음 — 가장 먼저 잡아야 할 곳',
+    candidates:[
+      {name:'Apartment house Jager', rating:9.6, reviews:103, perNight:125, total:375, loc:'리뷰 103건 · 산악뷰 · 동선 양호 추정', avail:1},
+      {name:'Bled Paradise Apartments', rating:9.4, reviews:6, perNight:149, total:448, loc:'블레드 외곽 · 노란 외관 · 리뷰 6건', avail:1},
+      {name:'Cozy Apartment Bovec', rating:10.0, reviews:1, perNight:192, total:575, loc:'⚠️ 보벡(소차밸리) — 블레드에서 차 1.5시간', avail:1}
+    ]
+  },
+  {
+    id:'milano', flag:'🇮🇹', name:'밀라노', dates:'6/15 (월) → 6/16 (화)', nights:1,
+    tempLow:160, tempHigh:220, adjLow:190, adjHigh:280,
+    note:"1박 마무리 · 후보 11개 (UNA 가격 미표시 1개 제외) · 월요일 비즈니스 수요로 가격 단단",
+    verdict:{type:'bad', text:'🔴 평균 €232로 임시 예산 평균(€190)보다 +€42 초과. 11개 중 €220 이하는 4개뿐. 예산 상향 권장.'},
+    checkin:'6/15', daysToCheckin:48, urgScore:58, urgTier:'mid', urgRank:6,
+    urgReason:'후보 12개로 가장 풍부 · 6/15 체크인이 일정 중 가장 늦음 · 다만 월요일 비즈니스 수요로 가격은 단단',
+    candidates:[
+      {name:'Cà Bèla – Porta Romana', rating:9.4, reviews:120, perNight:189, total:189, was:207, loc:'Porta Romana 지역 · 평점 9.4', wasTotal:207, avail:1},
+      {name:'Hotel Delizia', rating:8.4, reviews:209, perNight:201, total:201, was:223, loc:'전통 호텔 · 조식 포함 추정', wasTotal:223, avail:1},
+      {name:'Quark Hotel Milano', rating:8.8, reviews:662, perNight:204, total:204, was:223, loc:'리뷰 662건 · 안정적', wasTotal:223, avail:1},
+      {name:'CSI Group – Hotel metropoli', rating:8.8, reviews:18, perNight:220, total:220, was:318, loc:'메트로폴리 · 리뷰 적음 (18건)', wasTotal:318, avail:3},
+      {name:'Hotel Ideale', rating:8.2, reviews:418, perNight:222, total:222, was:245, loc:'리뷰 418건 · 조식 포함', wasTotal:245, avail:1},
+      {name:'Mercure Milano Solari', rating:8.4, reviews:628, perNight:234, total:234, loc:'Solari 지역 · 비즈니스 호텔 체인', avail:1},
+      {name:'Aiello Hotels – Isola Design District', rating:8.2, reviews:26, perNight:236, total:236, was:358, loc:'Isola 디자인 지구 · 트렌디 지역', wasTotal:358, avail:2},
+      {name:'Best Western Hotel City', rating:8.4, reviews:615, perNight:243, total:243, loc:'베스트웨스턴 · 옥상 라운지 추정', avail:2},
+      {name:'Hotel Crivi\'s', rating:8.0, reviews:372, perNight:246, total:246, was:440, loc:'중심부 호텔 · 큰 할인폭', wasTotal:440, avail:'ok'},
+      {name:'Sant\'Ambrogio Apartments', rating:9.0, reviews:210, perNight:266, total:266, loc:'Sant\'Ambrogio 지역 · 평점 9.0', avail:1},
+      {name:'Best Western Hotel Madison', rating:8.4, reviews:1001, perNight:294, total:294, loc:'리뷰 1001건 · 안정적', avail:1},
+      {name:'UNA Hotels Century Milano', rating:9.0, reviews:1004, perNight:0, total:0, loc:'평점 9.0 · 리뷰 1004건 · 가격 미표시 (Check availability)', soldout:true, avail:'check'}
+    ]
+  }
+];
+
+/* ============================================================
+   STATE
+============================================================ */
+const state = {
+  selected: {}, // city.id -> candidate index (or null)
+  sort: {},     // city.id -> 'price_asc'|'price_desc'|'rating'|'reviews'
+};
+cities.forEach(c => { state.selected[c.id]=null; state.sort[c.id]='price_asc'; });
+
+/* ============================================================
+   RENDER
+============================================================ */
+function fmtEur(n){ if(n===null||n===undefined) return '—'; return '€' + Math.round(n).toLocaleString(); }
+function rateClass(r){ if(r>=9.6) return 'rate-perfect'; if(r>=8.8) return 'rate-very'; return 'rate-good'; }
+function availTag(a){
+  if(a===1)        return '<span class="avail-tag av-1">⚠ 1 left</span>';
+  if(a===2)        return '<span class="avail-tag av-2">2 left</span>';
+  if(a===3)        return '<span class="avail-tag av-3">3 left</span>';
+  if(a==='check')  return '<span class="avail-tag av-check">availability ?</span>';
+  return '';
+}
+function statusOf(perNight, tempHigh, adjHigh){
+  if(perNight===0) return null;
+  if(perNight <= tempHigh*0.8) return {cls:'st-good', txt:'💰 매우 저렴'};
+  if(perNight <= tempHigh) return {cls:'st-fit', txt:'✓ 임시 예산 안'};
+  if(perNight <= adjHigh) return {cls:'st-warn', txt:'⚠ 조정안 안 (임시 초과)'};
+  return {cls:'st-bad', txt:'✗ 조정안도 초과'};
+}
+
+function urgencyBadge(city){
+  const tier = city.urgTier;
+  const labels = {critical:'🔴 매우 급함', high:'🟠 급함', mid:'🟡 처리 권장', low:'🟢 여유'};
+  const cls = {critical:'tier-critical', high:'tier-high', mid:'tier-mid', low:'tier-low'};
+  return `<span class="urg-tier ${cls[tier]}" style="margin:0;">우선순위 #${city.urgRank} · ${labels[tier]}</span>`;
+}
+
+function renderUrgency(){
+  const sorted = [...cities].sort((a,b) => a.urgRank - b.urgRank);
+  const html = sorted.map(city => {
+    const total = city.candidates.length;
+    const live = city.candidates.filter(c => !c.soldout);
+    const ones = live.filter(c => c.avail === 1).length;
+    const twos = live.filter(c => c.avail === 2).length;
+    const rest = live.length - ones - twos;
+    const sold = total - live.length;
+    const segs = [];
+    if(ones>0) segs.push(`<div class="stock-1" style="width:${ones/total*100}%;" title="1 left × ${ones}"></div>`);
+    if(twos>0) segs.push(`<div class="stock-2" style="width:${twos/total*100}%;" title="2 left × ${twos}"></div>`);
+    if(rest>0) segs.push(`<div class="stock-rest" style="width:${rest/total*100}%;" title="3+/안정 × ${rest}"></div>`);
+    const tierLabels = {critical:'🔴 매우 급함', high:'🟠 급함', mid:'🟡 처리 권장', low:'🟢 여유'};
+    const tierCls = {critical:'tier-critical', high:'tier-high', mid:'tier-mid', low:'tier-low'};
+    return `
+      <div class="urg-card lvl-${city.urgTier}">
+        <div class="urg-rank">${city.urgRank}</div>
+        <div class="urg-head">
+          <span class="urg-flag">${city.flag}</span>
+          <span class="urg-name">${city.name}</span>
+          <span style="font-size:11px;color:var(--warm-grey);font-weight:600;">${city.nights}박 · ${city.checkin} (D-${city.daysToCheckin})</span>
+        </div>
+        <span class="urg-tier ${tierCls[city.urgTier]}">${tierLabels[city.urgTier]} · 점수 ${city.urgScore}</span>
+        <div class="urg-meta">
+          <div>후보 <b>${total}개</b></div>
+          <div style="color:var(--alert);">1 left <b>${ones}개</b></div>
+          <div style="color:var(--pending);">2 left <b>${twos}개</b></div>
+          ${sold>0?`<div style="color:var(--alert);">매진 <b>${sold}개</b></div>`:''}
+        </div>
+        <div class="urg-stock-bar">${segs.join('')}</div>
+        <div class="urg-stock-legend"><span>잔여 위험 ←</span><span>안정 →</span></div>
+        <div class="urg-reason">${city.urgReason}</div>
+      </div>`;
+  }).join('');
+  document.getElementById('urgGrid').innerHTML = html;
+}
+
+function renderCities(){
+  const wrap = document.getElementById('cities');
+  wrap.innerHTML = cities.map(city => {
+    const prices = city.candidates.filter(c=>!c.soldout && c.perNight>0).map(c=>c.perNight);
+    const min = Math.min(...prices), max = Math.max(...prices);
+    const avg = prices.reduce((a,b)=>a+b,0)/prices.length;
+    return `
+    <section class="city" id="city-${city.id}">
+      <div class="city-head">
+        <div class="city-row">
+          <span class="city-flag">${city.flag}</span>
+          <span class="city-name">${city.name}</span>
+          <span class="nights-pill">${city.nights}박</span>
+          <span class="city-dates">${city.dates}</span>
+          ${urgencyBadge(city)}
+        </div>
+        <div class="city-stats">
+          <span class="stat-pill pill-temp">임시 예산/박 <strong>€${city.tempLow}–${city.tempHigh}</strong></span>
+          <span class="stat-pill pill-adj">조정안/박 <strong>€${city.adjLow}–${city.adjHigh}</strong></span>
+          <span class="stat-pill pill-mkt">시세 Min <strong>€${min}</strong></span>
+          <span class="stat-pill pill-mkt">시세 평균 <strong>€${avg.toFixed(0)}</strong></span>
+          <span class="stat-pill pill-mkt">시세 Max <strong>€${max}</strong></span>
+          <span class="stat-pill">후보 <strong>${city.candidates.filter(c=>!c.soldout).length}</strong>개</span>
+        </div>
+        <div class="verdict v-${city.verdict.type}">${city.verdict.text}</div>
+      </div>
+      <div class="ctrl-bar">
+        <div class="ctrl-grp">
+          <span class="ctrl-lbl">정렬</span>
+          <button class="ctrl-btn ${state.sort[city.id]==='price_asc'?'active':''}" onclick="setSort('${city.id}','price_asc')">가격 ↑</button>
+          <button class="ctrl-btn ${state.sort[city.id]==='price_desc'?'active':''}" onclick="setSort('${city.id}','price_desc')">가격 ↓</button>
+          <button class="ctrl-btn ${state.sort[city.id]==='rating'?'active':''}" onclick="setSort('${city.id}','rating')">평점 ↓</button>
+          <button class="ctrl-btn ${state.sort[city.id]==='reviews'?'active':''}" onclick="setSort('${city.id}','reviews')">리뷰수 ↓</button>
+        </div>
+        <div class="ctrl-grp">
+          <span class="ctrl-lbl">자동 추천</span>
+          <button class="ctrl-btn rec-budget" onclick="recommend('${city.id}','budget')">💰 가성비</button>
+          <button class="ctrl-btn rec-rated" onclick="recommend('${city.id}','rated')">⭐ 평점</button>
+        </div>
+      </div>
+      <div class="cand-grid" id="grid-${city.id}">
+        ${renderCandidates(city)}
+      </div>
+    </section>`;
+  }).join('');
+}
+
+function renderCandidates(city){
+  const sorted = sortCandidates(city.candidates, state.sort[city.id]);
+  return sorted.map(cand => {
+    const origIdx = city.candidates.indexOf(cand);
+    const status = statusOf(cand.perNight, city.tempHigh, city.adjHigh);
+    const isSelected = state.selected[city.id]===origIdx;
+    const cls = ['cand'];
+    if(cand.soldout) cls.push('cand-soldout');
+    if(isSelected) cls.push('selected');
+    if(cand.featured) cls.push('featured');
+    return `
+      <div class="${cls.join(' ')}" onclick="${cand.soldout?'':`pick('${city.id}',${origIdx})`}">
+        ${cand.featured?'<span class="featured-ribbon">최상위 추천</span>':''}
+        <div class="cand-rate" ${cand.featured?'style="margin-top:18px;"':''}>
+          <span class="rate-badge ${rateClass(cand.rating)}">${cand.rating.toFixed(1)}</span>
+          <span class="rate-rev">(${cand.reviews}건 리뷰)</span>
+          ${availTag(cand.avail)}
+        </div>
+        <div class="cand-name">${cand.name}</div>
+        <div class="cand-loc">${cand.loc||''}</div>
+        <div class="cand-price">
+          <div>
+            <div class="cand-pn">1박 가격</div>
+            <div class="cand-pn-amt">${cand.was?`<span class="strike">€${cand.was}</span>`:''}${cand.soldout||cand.perNight===0?'—':'€'+cand.perNight}</div>
+          </div>
+          <div class="cand-total">
+            <div class="cand-total-lbl">${city.nights}박 총액</div>
+            <div class="cand-total-amt">${cand.soldout||cand.total===0?'—':'€'+cand.total}</div>
+          </div>
+        </div>
+        ${status?`<div class="cand-status ${status.cls}">${status.txt}</div>`:''}
+      </div>`;
+  }).join('');
+}
+
+function sortCandidates(arr, key){
+  const sorted = [...arr];
+  const featured = sorted.filter(c => c.featured && !c.soldout);
+  const valid = sorted.filter(c => !c.featured && !c.soldout && c.perNight>0);
+  const soldout = sorted.filter(c => c.soldout || (!c.featured && c.perNight===0));
+  if(key==='price_asc') valid.sort((a,b)=>a.perNight-b.perNight);
+  if(key==='price_desc') valid.sort((a,b)=>b.perNight-a.perNight);
+  if(key==='rating') valid.sort((a,b)=>b.rating-a.rating || b.reviews-a.reviews);
+  if(key==='reviews') valid.sort((a,b)=>b.reviews-a.reviews);
+  return [...featured, ...valid, ...soldout];
+}
+
+function setSort(cityId, key){
+  state.sort[cityId] = key;
+  document.getElementById('grid-'+cityId).innerHTML = renderCandidates(cities.find(c=>c.id===cityId));
+  // re-render the control bar's active state
+  renderCities();
+  goTo('city-'+cityId);
+}
+
+function pick(cityId, idx){
+  state.selected[cityId] = (state.selected[cityId]===idx) ? null : idx;
+  renderCities();
+  updateTotals();
+}
+
+function recommend(cityId, mode){
+  const city = cities.find(c=>c.id===cityId);
+  const valid = city.candidates.map((c,i)=>({...c, _idx:i})).filter(c=>!c.soldout && c.perNight>0);
+  let pick;
+  // featured 후보가 있으면 최상위 추천 모드에서 무조건 우선
+  if(mode==='featured'){
+    const f = valid.find(c=>c.featured);
+    if(f) pick = f;
+  }
+  if(!pick && mode==='budget'){
+    // Min price among those with rating >= 9.0 + reviews >= 20 if possible, else just min price
+    const safe = valid.filter(c=>c.rating>=9.0 && c.reviews>=20);
+    pick = (safe.length?safe:valid).sort((a,b)=>a.perNight-b.perNight)[0];
+  } else if(!pick && mode==='rated'){
+    // weighted: rating + log(reviews)*0.3
+    pick = valid.map(c=>({...c, _score: c.rating + Math.log10(Math.max(c.reviews,1))*0.6}))
+                .sort((a,b)=>b._score-a._score)[0];
+  }
+  if(pick) state.selected[cityId] = pick._idx;
+  renderCities();
+  updateTotals();
+}
+
+function autoPick(mode){
+  cities.forEach(c => recommend(c.id, mode));
+}
+
+// ★ 최상위 추천(featured)이 있으면 그걸 선택, 없는 도시는 평점 추천으로 채움
+function pickFeatured(){
+  cities.forEach(c => {
+    const featured = c.candidates.findIndex(x => x.featured && !x.soldout);
+    if(featured >= 0){
+      state.selected[c.id] = featured;
+    } else {
+      recommend(c.id, 'rated');
+    }
+  });
+  renderCities();
+  updateTotals();
+}
+
+function clearAll(){
+  cities.forEach(c => state.selected[c.id]=null);
+  renderCities();
+  updateTotals();
+}
+
+function updateTotals(){
+  let sum = 0, count = 0;
+  cities.forEach(city => {
+    const idx = state.selected[city.id];
+    if(idx!==null && city.candidates[idx] && !city.candidates[idx].soldout){
+      sum += city.candidates[idx].total;
+      count += 1;
+    }
+  });
+  document.getElementById('pickTotal').textContent = sum===0?'€0':fmtEur(sum);
+  document.getElementById('trayTotal').textContent = sum===0?'€0':fmtEur(sum);
+  const totalNights = cities.reduce((a,c)=>a+c.nights,0);
+  const pickedNights = cities.reduce((a,c)=> a + (state.selected[c.id]!==null && c.candidates[state.selected[c.id]] && !c.candidates[state.selected[c.id]].soldout ? c.nights : 0), 0);
+  document.getElementById('pickProgress').textContent = `${pickedNights} / ${totalNights}박 선택됨 · ${count}/6 도시`;
+  document.getElementById('trayProgress').textContent = `${count} / 6 도시 (${pickedNights}/${totalNights}박)`;
+
+  if(count===0){
+    document.getElementById('pickDelta').textContent = '아래 도시 카드에서 후보를 클릭하세요. 자동으로 합계가 계산됩니다.';
+    document.getElementById('trayDeltaTemp').textContent = '—';
+    document.getElementById('trayDeltaAdj').textContent = '—';
+  } else if (count<6){
+    document.getElementById('pickDelta').textContent = `진행 중 — 아직 ${6-count}개 도시 미선택. 모두 선택하면 임시 예산·조정안과 자동 비교됩니다.`;
+    document.getElementById('trayDeltaTemp').textContent = '진행중';
+    document.getElementById('trayDeltaAdj').textContent = '진행중';
+  } else {
+    const deltaT = sum - TEMP_AVG;
+    const deltaA = sum - ADJ_AVG;
+    const fmtDelta = (d) => (d<=0?'−€':'+€') + Math.abs(Math.round(d)).toLocaleString();
+    const cls = (d) => d<=0?'delta-pos-light':'delta-neg-light';
+    document.getElementById('trayDeltaTemp').innerHTML = `<span class="${cls(deltaT)}">${fmtDelta(deltaT)}</span>`;
+    document.getElementById('trayDeltaAdj').innerHTML = `<span class="${cls(deltaA)}">${fmtDelta(deltaA)}</span>`;
+    let msg = '';
+    if(deltaT<=0 && deltaA<=0) msg = `✅ 두 예산 모두 안에 들어감. 임시 ${fmtDelta(deltaT)} · 조정 ${fmtDelta(deltaA)}.`;
+    else if(deltaT>0 && deltaA<=0) msg = `🟡 임시 예산은 +€${Math.round(deltaT)} 초과 / 조정안은 안에 들어감.`;
+    else msg = `🔴 두 예산 모두 초과 — 일부 도시에서 더 저렴한 후보로 바꾸거나 예산을 추가 상향해야 합니다.`;
+    document.getElementById('pickDelta').textContent = msg;
+  }
+}
+
+function goTo(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  if(event && event.target) event.target.classList.add('active');
+}
+
+// init — featured(★ 최상위 추천)는 페이지 열릴 때 자동 선택
+cities.forEach(c => {
+  const fIdx = c.candidates.findIndex(x => x.featured && !x.soldout);
+  if(fIdx >= 0) state.selected[c.id] = fIdx;
+});
+renderUrgency();
+renderCities();
+updateTotals();
+</script>
+</body>
+</html>
