@@ -965,18 +965,20 @@
 ═══════════════════════════════════════════════════════════════ -->
 <style>
   /* === Budget Page styles === */
-  #page-budget .bhero {background:linear-gradient(150deg,#1A6B3C 0%,#1B4F72 60%,#6B3FA0 100%);padding:48px 40px 56px;text-align:center;color:#fff;position:relative;overflow:hidden;}
+  #page-budget .bhero {background:linear-gradient(160deg,#2C7A6B 0%,#1F4F76 100%);padding:48px 40px 56px;text-align:center;color:#fff;position:relative;overflow:hidden;}
+  #page-budget .bhero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 0%,rgba(255,255,255,.10),transparent 60%);pointer-events:none;}
+  #page-budget .bhero > *{position:relative;}
   #page-budget .bhero h1{font-size:clamp(24px,4.5vw,38px);font-weight:700;margin-bottom:6px;}
   #page-budget .bhero-sub{font-size:14px;color:rgba(255,255,255,.8);margin-bottom:22px;}
   #page-budget .bhero-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;max-width:920px;margin:0 auto;}
   #page-budget .bhst{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:14px 16px;backdrop-filter:blur(6px);text-align:left;}
   #page-budget .bhst-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.7);font-weight:700;margin-bottom:5px;}
-  #page-budget .bhst-val{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;line-height:1.1;}
+  #page-budget .bhst-val{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;line-height:1.15;}
   #page-budget .bhst-sub{font-size:12px;color:rgba(255,255,255,.75);margin-top:3px;}
   #page-budget .bhst-paid{border-color:rgba(166,229,194,.45);}
-  #page-budget .bhst-paid .bhst-val{color:#A6E5C2;}
+  #page-budget .bhst-paid .bhst-val{color:#B8EFCF;}
   #page-budget .bhst-onsite{border-color:rgba(255,194,187,.45);}
-  #page-budget .bhst-onsite .bhst-val{color:#FFC2BB;}
+  #page-budget .bhst-onsite .bhst-val{color:#FFD0C8;}
   #page-budget .bhst-total{background:rgba(255,255,255,.22);}
 
   /* Budget table — Excel-style */
@@ -989,9 +991,9 @@
   #page-budget .btbl tr.cathead td{background:linear-gradient(90deg,rgba(27,79,114,0.10),rgba(107,63,160,0.08));font-weight:700;color:var(--ocean);font-size:13.5px;letter-spacing:.5px;border-top:1.5px solid var(--ocean);}
   #page-budget .btbl tr.cathead td .cat-icon{font-size:16px;margin-right:6px;}
   #page-budget .btbl tr.subtotal td{background:rgba(26,107,60,0.06);font-weight:700;color:var(--confirmed);font-size:13px;}
-  #page-budget .btbl tr.grand td{background:linear-gradient(90deg,var(--planb),var(--ocean));color:#fff;font-weight:700;font-size:14px;letter-spacing:.5px;}
+  #page-budget .btbl tr.grand td{background:#1F4F76;color:#fff;font-weight:700;font-size:14px;letter-spacing:.5px;}
   #page-budget .btbl tr.grand td.num{font-size:18px;}
-  #page-budget .btbl tr.detail td{font-size:12.5px;}
+  #page-budget .btbl tr.detail td{font-size:12.5px;vertical-align:top;}
   #page-budget .btbl tr.detail td:first-child{padding-left:36px;color:var(--ink-light);}
   #page-budget .btbl .item-name{font-weight:600;color:var(--ink);}
   #page-budget .btbl .item-meta{display:block;font-size:11px;color:var(--warm-grey);font-weight:400;margin-top:2px;}
@@ -999,11 +1001,106 @@
   #page-budget .btbl .pill-onsite{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:5px;background:rgba(183,113,26,.15);color:var(--amber);letter-spacing:.5px;text-transform:uppercase;margin-left:6px;}
   #page-budget .btbl .pill-est{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:5px;background:rgba(107,63,160,.15);color:var(--planb);letter-spacing:.5px;text-transform:uppercase;margin-left:6px;}
   #page-budget .btbl tr.detail:hover td{background:var(--cream);}
-  /* Mobile */
-  @media(max-width:600px){
-    #page-budget .btbl{font-size:12px;}
-    #page-budget .btbl th, #page-budget .btbl td{padding:8px 9px;}
-    #page-budget .btbl tr.detail td:first-child{padding-left:18px;}
+
+  /* === Mobile: convert .btbl rows to card-stack layout for readability === */
+  @media(max-width:680px){
+    /* hero tweaks */
+    #page-budget .bhero{padding:36px 18px 44px;}
+    #page-budget .bhero-sub{font-size:12.5px;margin-bottom:18px;}
+    #page-budget .bhst{padding:12px 14px;}
+    #page-budget .bhst-val{font-size:18px;}
+    #page-budget .bhst-sub{font-size:11px;}
+    /* container padding */
+    #page-budget .wrap{padding:0 14px;}
+    #page-budget .section{padding:26px 0;}
+    #page-budget .stitle{font-size:18px;line-height:1.35;}
+    #page-budget .sdesc{font-size:12px;}
+
+    /* hide thead row */
+    #page-budget .btbl thead{display:none;}
+    #page-budget .btbl,
+    #page-budget .btbl tbody{display:block;width:100%;}
+    #page-budget .btbl tr{display:block;width:100%;}
+    #page-budget .btbl td{display:block;border:none;padding:0;background:transparent !important;}
+
+    /* category header row */
+    #page-budget .btbl tr.cathead{display:block;margin-top:0;}
+    #page-budget .btbl tr.cathead td{
+      padding:12px 14px;font-size:12.5px;line-height:1.4;
+      background:linear-gradient(90deg,rgba(27,79,114,0.10),rgba(107,63,160,0.08)) !important;
+      border-top:1.5px solid var(--ocean);
+    }
+
+    /* detail row → card */
+    #page-budget .btbl tr.detail{
+      padding:12px 14px;border-bottom:1px solid var(--border);background:#fff;
+      position:relative;
+    }
+    #page-budget .btbl tr.detail:nth-of-type(even){background:#FAFBFD;}
+    /* 1st cell (always non-num): item-name + pill + optional meta — chip on top */
+    #page-budget .btbl tr.detail td:first-child{
+      padding:0 0 6px 0 !important;font-size:11px;color:var(--warm-grey);
+      display:flex;align-items:center;flex-wrap:wrap;gap:6px 8px;
+      white-space:normal !important;
+    }
+    #page-budget .btbl tr.detail td:first-child .item-name{
+      font-size:13px;font-weight:700;color:var(--ink);
+    }
+    #page-budget .btbl tr.detail td:first-child .pill-paid,
+    #page-budget .btbl tr.detail td:first-child .pill-onsite,
+    #page-budget .btbl tr.detail td:first-child .pill-est{
+      margin-left:0;
+    }
+    #page-budget .btbl tr.detail td:first-child .item-meta{
+      flex:1 1 100%;margin-top:2px;font-size:11px;color:var(--warm-grey);
+    }
+    /* middle non-num cell (4-column tables): description */
+    #page-budget .btbl tr.detail td:not(.num):not(:first-child){
+      font-size:12.5px;line-height:1.55;color:var(--ink-light);
+      padding:0 0 8px 0 !important;
+    }
+    /* numeric cells: inline pills at the bottom */
+    #page-budget .btbl tr.detail td.num{
+      display:inline-block;width:auto;text-align:left !important;
+      font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap;
+      padding:4px 10px !important;background:rgba(27,79,114,.06);
+      border-radius:6px;margin:0 6px 0 0;
+    }
+    #page-budget .btbl tr.detail td.num:last-child{margin-right:0;}
+    /* italic placeholder text e.g. "KRW 직접 결제 (환전 없음)" */
+    #page-budget .btbl tr.detail td.num[style*="italic"]{
+      font-style:italic;font-size:11px;font-weight:500;color:var(--warm-grey);
+      white-space:normal;background:transparent;padding:4px 0 !important;
+    }
+
+    /* subtotal row */
+    #page-budget .btbl tr.subtotal{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:10px 14px;background:rgba(26,107,60,0.07) !important;
+      border-bottom:1px solid var(--border);gap:10px;flex-wrap:wrap;
+    }
+    #page-budget .btbl tr.subtotal td{
+      padding:0 !important;text-align:left !important;font-size:12.5px;
+      color:var(--confirmed);
+    }
+    #page-budget .btbl tr.subtotal td[colspan]{flex:1;min-width:0;}
+    #page-budget .btbl tr.subtotal td.num{
+      flex:0 0 auto;font-weight:700;font-size:13px;
+    }
+
+    /* grand total row */
+    #page-budget .btbl tr.grand{
+      display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+      padding:14px 16px;background:#1F4F76 !important;color:#fff;border-radius:0;
+    }
+    #page-budget .btbl tr.grand td{
+      padding:0 !important;color:#fff;background:transparent !important;
+      text-align:left !important;font-size:13px;line-height:1.35;
+    }
+    #page-budget .btbl tr.grand td[colspan]{flex:1;min-width:0;}
+    #page-budget .btbl tr.grand td.num{
+      flex:0 0 auto;font-size:18px;font-weight:700;
+    }
   }
 </style>
 <div class="page" id="page-budget">
@@ -1096,9 +1193,8 @@
 
           <!-- 합계 -->
           <tr class="grand">
-            <td colspan="2" style="text-align:right;">💰 지금까지 지출 합계 (Grand Total) →</td>
+            <td colspan="3" style="text-align:right;">💰 지금까지 지출 합계 (Grand Total) →</td>
             <td class="num">9,122,600원</td>
-            <td class="num" style="font-size:14px;">€3,594.00<br><span style="font-size:11px;font-weight:600;opacity:.85;">+ 신한카드 270만</span></td>
           </tr>
         </tbody>
       </table>
