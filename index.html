@@ -220,6 +220,64 @@
   .page-tab .tab-emoji{font-size:18px;margin-right:6px;}
   .page-tab .tab-sub{display:block;font-size:10px;font-weight:500;color:var(--warm-grey);letter-spacing:1.2px;text-transform:uppercase;margin-top:2px;}
   .page-tab.active .tab-sub{color:var(--ocean);opacity:.7;}
+  /* 💰 예산 탭 강조 — 비활성 상태일 때 골드 펄스로 시선 유도 */
+  .page-tab[data-page="budget"]{position:relative;}
+  .page-tab[data-page="budget"]:not(.active){
+    color:#B7711A;
+    animation:budgetTabPulse 2.4s ease-in-out infinite;
+  }
+  .page-tab[data-page="budget"]:not(.active) .tab-sub{color:#B7711A;opacity:.75;}
+  .page-tab[data-page="budget"]:not(.active)::after{
+    content:'';position:absolute;top:10px;right:14px;
+    width:8px;height:8px;border-radius:50%;
+    background:#E0A951;
+    box-shadow:0 0 0 0 rgba(224,169,81,.7);
+    animation:budgetDot 2s ease-in-out infinite;
+  }
+  @keyframes budgetTabPulse{
+    0%,100%{background:transparent;}
+    50%{background:linear-gradient(180deg,rgba(224,169,81,.18),rgba(224,169,81,.04));}
+  }
+  @keyframes budgetDot{
+    0%{box-shadow:0 0 0 0 rgba(224,169,81,.65);}
+    70%{box-shadow:0 0 0 10px rgba(224,169,81,0);}
+    100%{box-shadow:0 0 0 0 rgba(224,169,81,0);}
+  }
+  /* 🎈 플로팅 예산 버튼 (FAB) */
+  .fab-budget{
+    position:fixed;right:22px;bottom:22px;z-index:100;
+    background:linear-gradient(135deg,#B7711A 0%,#E0A951 100%);
+    color:#fff;border:none;border-radius:30px;
+    padding:13px 20px 13px 17px;
+    font-family:inherit;font-size:13.5px;font-weight:700;letter-spacing:.2px;
+    cursor:pointer;
+    display:flex;align-items:center;gap:8px;
+    box-shadow:0 8px 24px rgba(183,113,26,.4),0 2px 8px rgba(0,0,0,.12);
+    transition:all .25s ease;
+    animation:fabPop .5s cubic-bezier(.34,1.56,.64,1) .8s both;
+  }
+  .fab-budget:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 14px 32px rgba(183,113,26,.5),0 4px 12px rgba(0,0,0,.16);}
+  .fab-budget:active{transform:translateY(0) scale(.98);}
+  .fab-budget .fab-icon{font-size:18px;}
+  .fab-budget .fab-pulse{
+    position:absolute;inset:-3px;border-radius:30px;
+    border:2px solid rgba(224,169,81,.55);
+    animation:fabPulse 2s ease-out infinite;pointer-events:none;
+  }
+  @keyframes fabPop{
+    from{opacity:0;transform:translateY(20px) scale(.8);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+  }
+  @keyframes fabPulse{
+    0%{opacity:.8;transform:scale(1);}
+    100%{opacity:0;transform:scale(1.18);}
+  }
+  /* 예산 페이지에서는 FAB 숨김 */
+  body.show-budget .fab-budget{display:none;}
+  @media(max-width:600px){
+    .fab-budget{right:14px;bottom:14px;padding:11px 16px 11px 14px;font-size:12.5px;}
+    .fab-budget .fab-icon{font-size:16px;}
+  }
   /* 페이지 전환 */
   .page{display:none;}
   .page.active{display:block;animation:fadeIn .25s ease-out;}
@@ -1418,6 +1476,13 @@
   <p style="margin-top:5px;">5월 24일 → 6월 16일 · 24일 여정 · 3인 · 2026</p>
   <p style="margin-top:9px;font-size:11px;opacity:.5;">✅ 모든 항공권·숙소(7개·14박) 예약 완료 · Alamo 렌터카 €1,763.88 (현장 결제)</p>
 </footer>
+
+<!-- 🎈 FLOATING BUDGET BUTTON — 여정 페이지에서 어디서든 예산으로 이동 -->
+<button class="fab-budget" onclick="switchPage('budget')" aria-label="예산 보기">
+  <span class="fab-pulse"></span>
+  <span class="fab-icon">💰</span>
+  <span>예산 보기</span>
+</button>
 
 <script>
 /* ============================================================
