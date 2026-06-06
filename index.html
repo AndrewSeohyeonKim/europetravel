@@ -437,6 +437,17 @@
   #page-itinerary .chbody {background:var(--cream);display:none;}
   #page-itinerary .chapter.open .chbody {display:block;}
 
+  /* ── 접이식 요약 섹션 (전체루트·날짜별요약·인삿말·실용정보) ── */
+  #page-itinerary .fold{margin:0 0 18px;}
+  #page-itinerary .fold-h{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;user-select:-webkit-user-select;user-select:none;padding:14px 18px;background:#fff;border-radius:14px;box-shadow:0 2px 12px var(--shadow);transition:box-shadow .2s;}
+  #page-itinerary .fold-h:hover{box-shadow:0 4px 18px var(--shadow);}
+  #page-itinerary .fold-h .slbl{margin:0 0 2px;}
+  #page-itinerary .fold-h .stitle{margin:0;font-size:18px;}
+  #page-itinerary .fold-arrow{font-size:14px;color:var(--warm-grey);transition:transform .25s;flex:0 0 auto;}
+  #page-itinerary .fold.open .fold-arrow{transform:rotate(180deg);}
+  #page-itinerary .fold-b{display:none;padding-top:16px;}
+  #page-itinerary .fold.open .fold-b{display:block;}
+
   
   #page-itinerary .dcgrid {display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));}
   #page-itinerary .dc {padding:20px 22px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);}
@@ -546,8 +557,12 @@
 <!-- ──────────────────────────────────────────────────
      ROUTE OVERVIEW
 ──────────────────────────────────────────────────── -->
-<p class="slbl">Journey Overview</p>
-<h2 class="stitle">전체 여행 루트</h2>
+<div class="fold open">
+  <div class="fold-h" onclick="this.parentElement.classList.toggle('open')">
+    <div><p class="slbl">Journey Overview</p><h2 class="stitle">🗺️ 전체 여행 루트</h2></div>
+    <span class="fold-arrow">▼</span>
+  </div>
+  <div class="fold-b">
 <div class="route-flow">
   <div class="rs"><span class="sflag">🎼</span><div class="scountry">Dublin</div><div class="scity">Andrew<br>졸업연주</div><div class="snights">5/25 (월)<br>17:40</div></div>
   <div class="rs"><span class="sflag">🇮🇪</span><div class="scountry">Ireland</div><div class="scity">더블린 & 아일랜드<br>국내 여행</div><div class="snights hl">5/26–6/1<br>7박</div></div>
@@ -557,12 +572,18 @@
   <div class="rs"><span class="sflag">🇸🇮</span><div class="scountry">Slovenia</div><div class="scity">블레드·보힌<br>류블라냐·소차</div><div class="snights hl">6/9–6/12<br>3박</div></div>
   <div class="rs"><span class="sflag">🇮🇹</span><div class="scountry">Italy</div><div class="scity">돌로미티<br>밀라노</div><div class="snights">6/12–6/16<br>4박</div></div>
 </div>
+  </div>
+</div>
 
 <!-- ──────────────────────────────────────────────────
-     SUMMARY TABLE
+     SUMMARY TABLE (접이식)
 ──────────────────────────────────────────────────── -->
-<p class="slbl">Quick Reference</p>
-<h2 class="stitle" style="margin-bottom:16px;">날짜별 요약 일정</h2>
+<div class="fold">
+  <div class="fold-h" onclick="this.parentElement.classList.toggle('open')">
+    <div><p class="slbl">Quick Reference</p><h2 class="stitle">📅 날짜별 요약 일정</h2></div>
+    <span class="fold-arrow">▼</span>
+  </div>
+  <div class="fold-b">
 <table class="stbl">
   <thead><tr><th>날짜</th><th>Day</th><th>숙박지</th><th>핵심 활동</th></tr></thead>
   <tbody>
@@ -586,12 +607,16 @@
     <tr class="key"><td><strong>6/16 (화)</strong></td><td><strong>15</strong></td><td>✈️ 출국</td><td>두오모·갈레리아 → 렌터카 반납 → <strong>OZ582 T1 22:00</strong>(조부모) · <strong>FR7800 T1 23:25</strong>(Andrew)</td></tr>
   </tbody>
 </table>
-
-<!-- 나라별 기본 인삿말 -->
-<div class="dd-h" style="margin:26px 0 12px;display:flex;align-items:center;gap:9px;">
-  <span style="font-size:18px;">🗣️</span>
-  <h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">나라별 기본 인삿말 &amp; 언어</h3>
+  </div>
 </div>
+
+<!-- 나라별 기본 인삿말 (접이식) -->
+<div class="fold">
+  <div class="fold-h" onclick="this.parentElement.classList.toggle('open')">
+    <div><p class="slbl">Local Phrases</p><h2 class="stitle">🗣️ 나라별 기본 인삿말 &amp; 언어</h2></div>
+    <span class="fold-arrow">▼</span>
+  </div>
+  <div class="fold-b">
 <table class="stbl" style="margin-bottom:12px;">
   <thead><tr><th>국가 · 언어</th><th>안녕하세요</th><th>감사합니다</th><th>그 외 유용</th></tr></thead>
   <tbody>
@@ -603,6 +628,8 @@
   </tbody>
 </table>
 <div class="tip">💡 돌로미티(남티롤·볼차노)는 <strong>독일어</strong>도 함께 써요 → Hallo 〔할로〕 안녕 · Danke 〔당케〕 감사. 어디서든 웃으며 현지 인삿말 한마디면 분위기가 확 부드러워집니다.</div>
+  </div>
+</div>
 
 <!-- ──────────────────────────────────────────────────
      DIVIDER
@@ -944,7 +971,7 @@
 </div>
 
 <!-- CH 02b: Montenegro day trip -->
-<div class="chapter ch-mne open">
+<div class="chapter ch-mne">
   <div class="chd" style="background:linear-gradient(135deg,#8E2D2D,#C0392B);" onclick="toggleChapter(this)">
     <div class="chnum">M</div>
     <div class="chmeta">
@@ -1284,6 +1311,17 @@
         </tbody>
       </table>
 
+      <!-- 🇰🇷 한국인 가이드: 스플리트 -->
+      <div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">🇰🇷</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">한국인 인기 식당 · 필수 관광 · 주의사항</h3></div>
+      <table class="stbl" style="margin-bottom:8px;">
+        <tbody>
+          <tr class="key"><td style="width:120px;"><strong>필수 관광</strong></td><td><strong>디오클레티아누스 궁전</strong>(은문·금문·지하홀·종탑) · <strong>그레고리우스 닌 동상</strong>(엄지발가락 만지면 소원) · 리바 해안 산책로 · 마르몬트 거리</td></tr>
+          <tr><td><strong>한국인 인기 식당·음식</strong></td><td>Bokeria Kitchen & Wine Bar(궁전 근처 인기) · <strong>체바피(ćevapi)</strong> 꼭 · 리바·페리스틸 주변 해산물</td></tr>
+          <tr><td><strong>🛍️ 기념품·간식</strong></td><td>라벤더·올리브오일·라키야 · 마트 Kraš <strong>Bajadera·Domaćica</strong>·Vegeta·Cedevita · 달마티아 프르슈트·파그 치즈</td></tr>
+          <tr><td><strong>⚠️ 주의</strong></td><td>궁전은 <strong>주민 거주 유적</strong> → 입장료 없음·정숙 · 도보 위주 · <strong>해질녘</strong> 풍경 best</td></tr>
+        </tbody>
+      </table>
+
     </div>
     <!-- ===== /스플리트 상세 ===== -->
   </div>
@@ -1403,6 +1441,27 @@
           <tr><td>🏠 Jezerce 숙소 마을</td><td>Jezerce</td><td><a href="https://www.google.com/maps/search/?api=1&query=Jezerce%20Plitvice" target="_blank">[지도]</a></td></tr>
           <tr class="key"><td>🍽️ Lička kuća</td><td>Restoran Lička kuća (Ulaz 1 맞은편)</td><td><a href="https://www.google.com/maps/search/?api=1&query=Licka%20Kuca%20Plitvice" target="_blank">[지도]</a></td></tr>
           <tr><td>🍽️ Restoran Degenija</td><td>Restoran Degenija</td><td><a href="https://www.google.com/maps/search/?api=1&query=Restoran%20Degenija%20Plitvice" target="_blank">[지도]</a></td></tr>
+        </tbody>
+      </table>
+
+      <!-- 🇰🇷 한국인 가이드: 자다르·크르카·쉬베닉 -->
+      <div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">🇰🇷</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">자다르 · 크르카 · 쉬베닉 — 한국인 인기 · 필수 · 주의</h3></div>
+      <table class="stbl" style="margin-bottom:8px;">
+        <tbody>
+          <tr class="key"><td style="width:120px;"><strong>필수 관광</strong></td><td><strong>바다 오르간</strong>(파도가 연주) · <strong>태양의 인사</strong>(LED 원형광장, 일몰) · 성 도나트 성당·성벽/바다문 · <strong>크르카 국립공원</strong>(스크라딘스키 부크 폭포) · 쉬베닉 성 야고보 대성당</td></tr>
+          <tr><td><strong>한국인 인기 음식</strong></td><td>구시가 해산물·리조토 · 크르카 입구 식당 (한식 정보는 적음)</td></tr>
+          <tr><td><strong>🛍️ 기념품·간식</strong></td><td><strong>Maraschino 마라스키노</strong>(자다르 발상 체리 리큐어) · 라벤더·소금·꿀 · 마라스카 체리 제품</td></tr>
+          <tr><td><strong>⚠️ 주의</strong></td><td>바다 오르간·태양의 인사는 <strong>일몰 시간</strong>에 · 크르카는 산책로 많이 걸음 → 운동화·물</td></tr>
+        </tbody>
+      </table>
+
+      <!-- 🇰🇷 한국인 가이드: 플리트비체 -->
+      <div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">🏞️</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">플리트비체 국립공원 — 필수 코스 · 주의</h3></div>
+      <table class="stbl" style="margin-bottom:8px;">
+        <tbody>
+          <tr class="key"><td style="width:120px;"><strong>필수 코스</strong></td><td>한국인 최다 <strong>H코스</strong>(입구2 시작) · 상·하단 호수 · 보트+파노라마 셔틀 포함 · 대폭포(Veliki slap)</td></tr>
+          <tr><td><strong>🛍️ 기념품·간식</strong></td><td>현지 꿀·치즈·라벤더 오일 · 공원 기념품샵 목제품 (자연공원이라 종류는 적음)</td></tr>
+          <tr><td><strong>⚠️ 주의 (중요)</strong></td><td>🚨 <strong>난간 없는 목재 데크 — 추락사고 이력, 발밑 절대 조심</strong> · <strong>온라인 시간지정 예약 필수</strong>(30분 전 도착) · 편한 운동화 · 공원 내 식당은 <strong>P3 선착장 앞 1곳뿐</strong> → 물·간식 지참</td></tr>
         </tbody>
       </table>
 
@@ -1534,6 +1593,17 @@
         </tbody>
       </table>
 
+      <!-- 🇰🇷 한국인 가이드: 슬로베니아 -->
+      <div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">🇰🇷</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">류블랴나 · 블레드 — 한국인 인기 · 필수 · 주의</h3></div>
+      <table class="stbl" style="margin-bottom:8px;">
+        <tbody>
+          <tr class="key"><td style="width:120px;"><strong>필수 관광</strong></td><td><strong>블레드 호수</strong>(플레트나 보트로 섬 성당·소원종) · 블레드 성(전망, €약13) · 류블랴나 구시가·프레셰렌 광장·<strong>용의 다리</strong>·중앙시장·성</td></tr>
+          <tr><td><strong>한국인 인기 음식</strong></td><td>🍰 <strong>블레드 크림케이크(Kremšnita)</strong> 원조 Park Hotel(€약6.5) · 류블랴나 <strong>한식 점심</strong>(일정 포함)</td></tr>
+          <tr><td><strong>🛍️ 기념품·간식</strong></td><td><strong>꿀·꿀제품</strong>(양봉 강국) · 피란 소금 · 라벤더 · 포티차(potica) · 마트 <strong>Gorenjka 초콜릿·Cockta(슬베 콜라)·Radenska</strong> · 벌집 패널화·이드리야 레이스</td></tr>
+          <tr><td><strong>⚠️ 주의</strong></td><td>6~8월 성수기 혼잡(평일·오전 추천) · 블레드 성 입장료 별도 · 보트는 날씨 영향</td></tr>
+        </tbody>
+      </table>
+
     </div>
     <!-- ===== /슬로베니아 상세 ===== -->
   </div>
@@ -1648,6 +1718,17 @@
           <tr><td>🥩 Tubladel</td><td>Ristorante Tubladel</td><td><a href="https://www.google.com/maps/search/?api=1&query=Ristorante%20Tubladel%20Ortisei" target="_blank">[지도]</a></td></tr>
           <tr><td>🍕 Mauriz Keller</td><td>Mauriz Keller</td><td><a href="https://www.google.com/maps/search/?api=1&query=Mauriz%20Keller%20Ortisei" target="_blank">[지도]</a></td></tr>
           <tr><td>🏘️ 카스텔로토 마을</td><td>Castelrotto / Kastelruth</td><td><a href="https://www.google.com/maps/search/?api=1&query=Castelrotto" target="_blank">[지도]</a></td></tr>
+        </tbody>
+      </table>
+
+      <!-- 🇰🇷 한국인 가이드: 돌로미티 -->
+      <div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">🇰🇷</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">돌로미티 — 필수 관광 · 주의사항</h3></div>
+      <table class="stbl" style="margin-bottom:8px;">
+        <tbody>
+          <tr class="key"><td style="width:120px;"><strong>필수 관광</strong></td><td><strong>트레 치메 디 라바레도</strong> · <strong>세체다</strong>(오르티세이 케이블카) · <strong>알페 디 시우시</strong> · <strong>라고 디 브라이에스</strong> 호수 · 발 디 푸네스(San Giovanni 교회)</td></tr>
+          <tr><td><strong>음식</strong></td><td>산악지대라 한식 거의 없음 → 마트 활용 · 산장(rifugio) 현지식·크네델</td></tr>
+          <tr><td><strong>🛍️ 기념품·간식</strong></td><td>남티롤 <strong>Speck(훈제햄)·산악 치즈·사과/사과주스·그라파·슈트루델</strong> · 산장 꿀·잼</td></tr>
+          <tr><td><strong>⚠️ 주의 (중요)</strong></td><td>🚗 <strong>산길 급커브·야간운전 자제</strong> · 인기 주차장(세체다·트레치메) <strong>성수기 만차 → 아침 일찍</strong> · <strong>주차비 현금</strong>(시간당 €2 전후, 카드 불가 많음) · 6월에도 정상 추움 → <strong>바람막이·트레킹화</strong> · 케이블카 2개 이상 타면 <strong>1일권</strong>이 유리</td></tr>
         </tbody>
       </table>
 
@@ -1770,86 +1851,30 @@
         </tbody>
       </table>
 
+      <!-- 🇰🇷 한국인 가이드: 밀라노 -->
+      <div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">🇰🇷</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">밀라노 — 한국인 인기 · 필수 · 주의</h3></div>
+      <table class="stbl" style="margin-bottom:8px;">
+        <tbody>
+          <tr class="key"><td style="width:120px;"><strong>필수 관광</strong></td><td><strong>두오모</strong>(루프탑 테라스 예약) · <strong>비토리오 에마누엘레 2세 갈레리아</strong> · 라 스칼라 극장 · 스포르체스코 성 · <strong>최후의 만찬</strong>(예약 필수)</td></tr>
+          <tr><td><strong>한국인 인기 식당</strong></td><td>Al Conte Ugolino(두오모 근처) · 시내 <strong>한식당 다수</strong>(일정에 한식 저녁 포함) · 갤러리아 주변 파스타·젤라또</td></tr>
+          <tr><td><strong>🛍️ 기념품·간식</strong></td><td><strong>파네토네·토로네·아마레티</strong> · 그라나 파다노/파르미지아노·발사믹·리몬첼로 · 마트(Esselunga/Coop) <strong>Barilla·Lavazza/illy 커피·누텔라·산펠레그리노·페레로</strong> · 패션·디자인 소품</td></tr>
+          <tr><td><strong>⚠️ 주의 (중요)</strong></td><td>🚨 <strong>소매치기 극성</strong>(두오모 광장·지하철·중앙역) — 가방 앞으로 · 🚗 <strong>ZTL 차량제한구역</strong> 렌터카 진입 시 벌금 → <strong>외곽 주차</strong> · 두오모 테라스·최후의 만찬 <strong>사전예약</strong></td></tr>
+        </tbody>
+      </table>
+
     </div>
     <!-- ===== /밀라노 상세 ===== -->
   </div>
 </div>
 
-<!-- ══════════ 여정 전체 도시 가이드 ══════════ -->
-<div class="divider"><div class="divider-line"></div><div style="color:var(--planb);font-size:13px;">✦</div><div class="divider-line"></div></div>
-<p class="slbl">Korea-Loved Guide</p>
-<h2 class="stitle">🇰🇷 도시별 한국인 인기 식당 · 필수 관광지 · 주의사항</h2>
-<p style="font-size:13px;color:var(--ink-light);margin:-10px 0 22px;">한국 여행자·블로그·패키지에서 특히 사랑받는 곳 중심. (두브로브니크는 위 CH 02에 상세)</p>
-
-<!-- 스플리트 -->
-<div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">🏛️</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">스플리트 (6/5~6/6)</h3></div>
-<table class="stbl" style="margin-bottom:8px;">
-  <tbody>
-    <tr class="key"><td style="width:120px;"><strong>필수 관광</strong></td><td><strong>디오클레티아누스 궁전</strong>(은문·금문·지하홀·종탑) · <strong>그레고리우스 닌 동상</strong>(엄지발가락 만지면 소원) · 리바 해안 산책로 · 마르몬트 거리</td></tr>
-    <tr><td><strong>한국인 인기 식당·음식</strong></td><td>Bokeria Kitchen & Wine Bar(궁전 근처 인기) · <strong>체바피(ćevapi)</strong> 꼭 · 리바·페리스틸 주변 해산물</td></tr>
-    <tr><td><strong>🛍️ 기념품·간식</strong></td><td>라벤더·올리브오일·라키야 · 마트 Kraš <strong>Bajadera·Domaćica</strong>·Vegeta·Cedevita · 달마티아 프르슈트·파그 치즈</td></tr>
-    <tr><td><strong>⚠️ 주의</strong></td><td>궁전은 <strong>주민 거주 유적</strong> → 입장료 없음·정숙 · 도보 위주 · <strong>해질녘</strong> 풍경 best</td></tr>
-  </tbody>
-</table>
-
-<!-- 자다르 -->
-<div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">🌊</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">자다르 · 크르카 · 쉬베닉 (6/7)</h3></div>
-<table class="stbl" style="margin-bottom:8px;">
-  <tbody>
-    <tr class="key"><td style="width:120px;"><strong>필수 관광</strong></td><td><strong>바다 오르간</strong>(파도가 연주) · <strong>태양의 인사</strong>(LED 원형광장, 일몰) · 성 도나트 성당·성벽/바다문 · <strong>크르카 국립공원</strong>(스크라딘스키 부크 폭포) · 쉬베닉 성 야고보 대성당</td></tr>
-    <tr><td><strong>한국인 인기 음식</strong></td><td>구시가 해산물·리조토 · 크르카 입구 식당 (한식 정보는 적음)</td></tr>
-    <tr><td><strong>🛍️ 기념품·간식</strong></td><td><strong>Maraschino 마라스키노</strong>(자다르 발상 체리 리큐어) · 라벤더·소금·꿀 · 마라스카 체리 제품</td></tr>
-    <tr><td><strong>⚠️ 주의</strong></td><td>바다 오르간·태양의 인사는 <strong>일몰 시간</strong>에 · 크르카는 산책로 많이 걸음 → 운동화·물</td></tr>
-  </tbody>
-</table>
-
-<!-- 플리트비체 -->
-<div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">🏞️</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">플리트비체 국립공원 (6/8)</h3></div>
-<table class="stbl" style="margin-bottom:8px;">
-  <tbody>
-    <tr class="key"><td style="width:120px;"><strong>필수 코스</strong></td><td>한국인 최다 <strong>H코스</strong>(입구2 시작) · 상·하단 호수 · 보트+파노라마 셔틀 포함 · 대폭포(Veliki slap)</td></tr>
-    <tr><td><strong>🛍️ 기념품·간식</strong></td><td>현지 꿀·치즈·라벤더 오일 · 공원 기념품샵 목제품 (자연공원이라 종류는 적음)</td></tr>
-    <tr><td><strong>⚠️ 주의 (중요)</strong></td><td>🚨 <strong>난간 없는 목재 데크 — 추락사고 이력, 발밑 절대 조심</strong> · <strong>온라인 시간지정 예약 필수</strong>(30분 전 도착) · 편한 운동화 · 공원 내 식당은 <strong>P3 선착장 앞 1곳뿐</strong> → 물·간식 지참</td></tr>
-  </tbody>
-</table>
-
-<!-- 슬로베니아 -->
-<div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">🇸🇮</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">슬로베니아 — 류블랴나 · 블레드 (6/9~6/11)</h3></div>
-<table class="stbl" style="margin-bottom:8px;">
-  <tbody>
-    <tr class="key"><td style="width:120px;"><strong>필수 관광</strong></td><td><strong>블레드 호수</strong>(플레트나 보트로 섬 성당·소원종) · 블레드 성(전망, €약13) · 류블랴나 구시가·프레셰렌 광장·<strong>용의 다리</strong>·중앙시장·성</td></tr>
-    <tr><td><strong>한국인 인기 음식</strong></td><td>🍰 <strong>블레드 크림케이크(Kremšnita)</strong> 원조 Park Hotel(€약6.5) · 류블랴나 <strong>한식 점심</strong>(일정 포함)</td></tr>
-    <tr><td><strong>🛍️ 기념품·간식</strong></td><td><strong>꿀·꿀제품</strong>(양봉 강국) · 피란 소금 · 라벤더 · 포티차(potica) · 마트 <strong>Gorenjka 초콜릿·Cockta(슬베 콜라)·Radenska</strong> · 벌집 패널화·이드리야 레이스</td></tr>
-    <tr><td><strong>⚠️ 주의</strong></td><td>6~8월 성수기 혼잡(평일·오전 추천) · 블레드 성 입장료 별도 · 보트는 날씨 영향</td></tr>
-  </tbody>
-</table>
-
-<!-- 돌로미티 -->
-<div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">🏔️</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">돌로미티 (6/11~6/14 · 라이온 거점)</h3></div>
-<table class="stbl" style="margin-bottom:8px;">
-  <tbody>
-    <tr class="key"><td style="width:120px;"><strong>필수 관광</strong></td><td><strong>트레 치메 디 라바레도</strong> · <strong>세체다</strong>(오르티세이 케이블카) · <strong>알페 디 시우시</strong> · <strong>라고 디 브라이에스</strong> 호수 · 발 디 푸네스(San Giovanni 교회)</td></tr>
-    <tr><td><strong>음식</strong></td><td>산악지대라 한식 거의 없음 → 마트 활용 · 산장(rifugio) 현지식·크네델</td></tr>
-    <tr><td><strong>🛍️ 기념품·간식</strong></td><td>남티롤 <strong>Speck(훈제햄)·산악 치즈·사과/사과주스·그라파·슈트루델</strong> · 산장 꿀·잼</td></tr>
-    <tr><td><strong>⚠️ 주의 (중요)</strong></td><td>🚗 <strong>산길 급커브·야간운전 자제</strong> · 인기 주차장(세체다·트레치메) <strong>성수기 만차 → 아침 일찍</strong> · <strong>주차비 현금</strong>(시간당 €2 전후, 카드 불가 많음) · 6월에도 정상 추움 → <strong>바람막이·트레킹화</strong> · 케이블카 2개 이상 타면 <strong>1일권</strong>이 유리</td></tr>
-  </tbody>
-</table>
-
-<!-- 밀라노 -->
-<div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">🇮🇹</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">밀라노 (6/15~6/16)</h3></div>
-<table class="stbl" style="margin-bottom:8px;">
-  <tbody>
-    <tr class="key"><td style="width:120px;"><strong>필수 관광</strong></td><td><strong>두오모</strong>(루프탑 테라스 예약) · <strong>비토리오 에마누엘레 2세 갈레리아</strong> · 라 스칼라 극장 · 스포르체스코 성 · <strong>최후의 만찬</strong>(예약 필수)</td></tr>
-    <tr><td><strong>한국인 인기 식당</strong></td><td>Al Conte Ugolino(두오모 근처) · 시내 <strong>한식당 다수</strong>(일정에 한식 저녁 포함) · 갤러리아 주변 파스타·젤라또</td></tr>
-    <tr><td><strong>🛍️ 기념품·간식</strong></td><td><strong>파네토네·토로네·아마레티</strong> · 그라나 파다노/파르미지아노·발사믹·리몬첼로 · 마트(Esselunga/Coop) <strong>Barilla·Lavazza/illy 커피·누텔라·산펠레그리노·페레로</strong> · 패션·디자인 소품</td></tr>
-    <tr><td><strong>⚠️ 주의 (중요)</strong></td><td>🚨 <strong>소매치기 극성</strong>(두오모 광장·지하철·중앙역) — 가방 앞으로 · 🚗 <strong>ZTL 차량제한구역</strong> 렌터카 진입 시 벌금 → <strong>외곽 주차</strong> · 두오모 테라스·최후의 만찬 <strong>사전예약</strong></td></tr>
-  </tbody>
-</table>
-
 <!-- ══════════ 자동차 여행 실용 정보 ══════════ -->
 <div class="divider"><div class="divider-line"></div><div style="color:var(--planb);font-size:13px;">✦</div><div class="divider-line"></div></div>
-<p class="slbl">Road Trip Essentials</p>
-<h2 class="stitle">🚗 자동차 여행 실용 정보</h2>
+<div class="fold">
+  <div class="fold-h" onclick="this.parentElement.classList.toggle('open')">
+    <div><p class="slbl">Road Trip Essentials</p><h2 class="stitle">🚗 자동차 여행 실용 정보</h2></div>
+    <span class="fold-arrow">▼</span>
+  </div>
+  <div class="fold-b">
 
 <!-- 기름값 -->
 <div class="dd-h" style="margin:24px 0 10px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">⛽</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">기름값 (휘발유 95 · 2026 평균)</h3></div>
@@ -1904,6 +1929,8 @@
   </tbody>
 </table>
 <div class="tip red">🚗 <strong>원칙: 유럽 구도심·역사지구는 거의 다 보행자/통행제한</strong> — 두브로브니크처럼 <strong>외곽 주차 후 도보</strong>가 기본. 특히 <strong>밀라노 ZTL</strong>은 카메라 자동 단속이라 렌터카로 진입하면 며칠 뒤 벌금이 청구됩니다. 내비에 "ZTL 회피" 설정 권장.</div>
+  </div>
+</div>
 
 <!-- ──────────────────────────────────────────────────
      DIVIDER
@@ -2076,8 +2103,8 @@
       </div>
       <div class="bhst bhst-onsite">
         <div class="bhst-lbl">발칸·알프스 구간 (6/2 시작 · 진행중)</div>
-        <div class="bhst-val">잔액 €1,080.29</div>
-        <div class="bhst-sub">출발 €3,229.05 − 지출 €2,148.76 (10건, 렌터카 €1,718 포함)</div>
+        <div class="bhst-val">잔액 €718.99</div>
+        <div class="bhst-sub">출발 €3,229.05 − 지출 €2,510.06 (22건, 렌터카 €1,718 포함)</div>
       </div>
       <div class="bhst bhst-total">
         <div class="bhst-lbl">예상 총 여행 비용</div>
@@ -2455,7 +2482,7 @@
     <div class="section">
       <p class="slbl">Actual Spend · 실시간 지출 기록</p>
       <h2 class="stitle">🇭🇷 발칸·알프스 구간 실제 지출 — 6/2 시작</h2>
-      <p class="sdesc">두브로브니크 도착 후 여행경비 계좌로 본격적인 발칸·알프스 구간 지출이 시작됐습니다. <strong>출발 잔액은 € 3,000(6/1 추가 환전 현금) + 아일랜드 잔액 € 229.05 이월 = € 3,229.05</strong>입니다. 아래는 뱅킹 앱 내역 그대로이며, 6/2~6/4 거래 10건 합계 <strong>€ 2,148.76</strong>을 지출해 현재 잔액은 <strong>€ 1,080.29</strong>입니다. (앱 표시 잔액과 일치 ✓)</p>
+      <p class="sdesc">두브로브니크 도착 후 여행경비 계좌로 본격적인 발칸·알프스 구간 지출이 시작됐습니다. <strong>출발 잔액은 € 3,000(6/1 추가 환전 현금) + 아일랜드 잔액 € 229.05 이월 = € 3,229.05</strong>입니다. 아래는 뱅킹 앱 내역 그대로이며, 6/2~6/6 거래 22건 합계 <strong>€ 2,510.06</strong>을 지출해 현재 잔액은 <strong>€ 718.99</strong>입니다. (6/5 폭포·통행·주유, 6/6 크르카 국립공원·스플리트·미슐랭 점심 반영 ✓)</p>
 
       <!-- 출발 잔액·현재 잔액 요약 카드 -->
       <table class="btbl" style="margin-bottom:18px;">
@@ -2471,12 +2498,12 @@
             <td class="num" style="color:var(--confirmed);">€3,229.05</td>
           </tr>
           <tr class="detail">
-            <td><span class="item-name">지금까지 지출 (6/2~6/4)</span><span class="pill-onsite">사용</span><span class="item-meta">아래 4개 카테고리 합계 · 10건</span></td>
-            <td class="num" style="color:var(--alert);">−€2,148.76</td>
+            <td><span class="item-name">지금까지 지출 (6/2~6/6)</span><span class="pill-onsite">사용</span><span class="item-meta">아래 5개 카테고리 합계 · 22건</span></td>
+            <td class="num" style="color:var(--alert);">−€2,510.06</td>
           </tr>
           <tr class="grand">
-            <td style="text-align:right;">💶 현재 잔액 (6/4 기준) →</td>
-            <td class="num">€1,080.29</td>
+            <td style="text-align:right;">💶 현재 잔액 (6/6 기준) →</td>
+            <td class="num">€718.99</td>
           </tr>
         </tbody>
       </table>
@@ -2514,9 +2541,24 @@
             <td><strong>Dubrovnik Wall</strong> — 두브로브니크 성벽 입장 (성인 €40 × 3인)<span class="item-meta">11:08</span></td>
             <td class="num">€120.00</td>
           </tr>
+          <tr class="detail">
+            <td><span class="item-name">6/5</span><span class="pill-paid">완료</span></td>
+            <td><strong>폭포 입장료</strong> — 폭포 관광 입장권<span class="item-meta">22:36 기록</span></td>
+            <td class="num">€30.90</td>
+          </tr>
+          <tr class="detail">
+            <td><span class="item-name">6/6</span><span class="pill-paid">완료</span></td>
+            <td><strong>Split ticket</strong> — 스플리트 티켓<span class="item-meta">18:19 기록</span></td>
+            <td class="num">€27.50</td>
+          </tr>
+          <tr class="detail">
+            <td><span class="item-name">6/6</span><span class="pill-paid">완료</span></td>
+            <td><strong>크르카 국립공원</strong> — 크르카(Krka) 국립공원 입장료 (3인)<span class="item-meta">18:21 기록</span></td>
+            <td class="num">€95.00</td>
+          </tr>
           <tr class="subtotal">
-            <td colspan="2" style="text-align:right;">🎫 관광/입장 소계 (1건) →</td>
-            <td class="num">€120.00</td>
+            <td colspan="2" style="text-align:right;">🎫 관광/입장 소계 (4건) →</td>
+            <td class="num">€273.40</td>
           </tr>
 
           <!-- 식비 -->
@@ -2536,9 +2578,29 @@
             <td><strong>정육 (Meat)</strong> — 고기 구매 (집밥용)<span class="item-meta">12:44</span></td>
             <td class="num">€48.50</td>
           </tr>
+          <tr class="detail">
+            <td><span class="item-name">6/6</span><span class="pill-paid">완료</span></td>
+            <td><strong>Gelato</strong> — 젤라토 간식<span class="item-meta">18:19 기록</span></td>
+            <td class="num">€7.50</td>
+          </tr>
+          <tr class="detail">
+            <td><span class="item-name">6/6</span><span class="pill-paid">완료</span></td>
+            <td><strong>Lunch-Michelin</strong> — 미슐랭 레스토랑 점심 (3인)<span class="item-meta">18:20 기록</span></td>
+            <td class="num">€128.00</td>
+          </tr>
+          <tr class="detail">
+            <td><span class="item-name">6/6</span><span class="pill-paid">완료</span></td>
+            <td><strong>수박</strong> — 수박 구매<span class="item-meta">18:20 기록</span></td>
+            <td class="num">€4.59</td>
+          </tr>
+          <tr class="detail">
+            <td><span class="item-name">6/6</span><span class="pill-paid">완료</span></td>
+            <td><strong>과일 (Fruits)</strong> — 과일 구매<span class="item-meta">20:43</span></td>
+            <td class="num">€6.51</td>
+          </tr>
           <tr class="subtotal">
-            <td colspan="2" style="text-align:right;">🍽️ 식비 소계 (3건) →</td>
-            <td class="num">€162.88</td>
+            <td colspan="2" style="text-align:right;">🍽️ 식비 소계 (7건) →</td>
+            <td class="num">€309.48</td>
           </tr>
 
           <!-- 연료·주차·통행 -->
@@ -2563,15 +2625,47 @@
             <td><strong>주차비</strong> — 두브로브니크 주차<span class="item-meta">오후</span></td>
             <td class="num">€16.00</td>
           </tr>
+          <tr class="detail">
+            <td><span class="item-name">6/5</span><span class="pill-paid">완료</span></td>
+            <td><strong>톨비</strong> — 고속도로 통행료<span class="item-meta">22:36 기록</span></td>
+            <td class="num">€0.52</td>
+          </tr>
+          <tr class="detail">
+            <td><span class="item-name">6/5</span><span class="pill-paid">완료</span></td>
+            <td><strong>주차비</strong> — 주차<span class="item-meta">22:37 기록</span></td>
+            <td class="num">€3.10</td>
+          </tr>
+          <tr class="detail">
+            <td><span class="item-name">6/5</span><span class="pill-paid">완료</span></td>
+            <td><strong>주유비</strong> — 디젤 주유 (렌터카)<span class="item-meta">22:38 기록</span></td>
+            <td class="num">€26.38</td>
+          </tr>
+          <tr class="detail">
+            <td><span class="item-name">6/5</span><span class="pill-paid">완료</span></td>
+            <td><strong>톨비</strong> — 고속도로 통행료<span class="item-meta">22:38 기록</span></td>
+            <td class="num">€5.20</td>
+          </tr>
           <tr class="subtotal">
-            <td colspan="2" style="text-align:right;">⛽ 연료/주차/통행 소계 (4건) →</td>
-            <td class="num">€148.00</td>
+            <td colspan="2" style="text-align:right;">⛽ 연료/주차/통행 소계 (8건) →</td>
+            <td class="num">€183.20</td>
+          </tr>
+
+          <!-- 기타 -->
+          <tr class="cathead"><td colspan="3"><span class="cat-icon">🏷️</span>기타 · 세금</td></tr>
+          <tr class="detail">
+            <td><span class="item-name">6/6</span><span class="pill-paid">완료</span></td>
+            <td><strong>Italy Tourist Tax</strong> — 이탈리아 숙소 관광세<span class="item-meta">18:20 기록</span></td>
+            <td class="num">€26.10</td>
+          </tr>
+          <tr class="subtotal">
+            <td colspan="2" style="text-align:right;">🏷️ 기타 소계 (1건) →</td>
+            <td class="num">€26.10</td>
           </tr>
 
           <!-- 합계 -->
           <tr class="grand">
-            <td colspan="2" style="text-align:right;">🧾 발칸·알프스 구간 실지출 합계 (10건) →</td>
-            <td class="num">€2,148.76</td>
+            <td colspan="2" style="text-align:right;">🧾 발칸·알프스 구간 실지출 합계 (22건) →</td>
+            <td class="num">€2,510.06</td>
           </tr>
         </tbody>
       </table>
