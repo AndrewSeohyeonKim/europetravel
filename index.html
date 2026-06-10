@@ -464,16 +464,16 @@
   #page-itinerary .ilbl {font-weight:700;color:var(--ink-light);min-width:42px;font-size:11px;}
   #page-itinerary .itxt {color:var(--ink);flex:1;font-size:12px;}
   #page-itinerary .sched {margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);}
-  #page-itinerary .sched li {display:flex;gap:6px;font-size:12px;color:var(--ink);margin-bottom:4px;}
-  #page-itinerary .sched li::before {content:'◦';color:var(--terracotta);font-size:11px;margin-top:3px;flex-shrink:0;}
+  #page-itinerary .sched li {position:relative;padding-left:14px;font-size:12px;color:var(--ink);margin-bottom:4px;line-height:1.55;}
+  #page-itinerary .sched li::before {content:'◦';position:absolute;left:0;top:0;color:var(--terracotta);font-size:11px;}
   #page-itinerary .tip {background:rgba(196,98,45,0.06);border-left:3px solid var(--terracotta);padding:9px 12px;border-radius:0 7px 7px 0;margin-top:9px;font-size:12px;color:var(--ink-light);line-height:1.6;}
   #page-itinerary .tip.red {background:rgba(176,58,46,0.06);border-left-color:var(--alert);}
   #page-itinerary .tip.grn {background:rgba(26,107,60,0.06);border-left-color:var(--forest);}
   #page-itinerary .tip.pur {background:rgba(107,63,160,0.06);border-left-color:var(--planb);}
   #page-itinerary .optbox {background:rgba(183,113,26,0.06);border:1px dashed rgba(183,113,26,0.3);border-radius:8px;padding:10px 12px;margin-top:8px;}
   #page-itinerary .opttitle {font-weight:700;color:var(--amber);font-size:11px;margin-bottom:5px;}
-  #page-itinerary .optbox li {font-size:12px;color:var(--ink-light);padding:2px 0;display:flex;gap:5px;}
-  #page-itinerary .optbox li::before {content:'▸';color:var(--amber);flex-shrink:0;}
+  #page-itinerary .optbox li {font-size:12px;color:var(--ink-light);padding:2px 0 2px 13px;position:relative;line-height:1.55;}
+  #page-itinerary .optbox li::before {content:'▸';color:var(--amber);position:absolute;left:0;top:2px;}
   #page-itinerary .btags {display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;}
   #page-itinerary .btag {background:rgba(27,79,114,0.08);color:var(--ocean);font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;border:1px solid rgba(27,79,114,0.2);}
   #page-itinerary .fmini {background:rgba(26,107,60,0.06);border:1px solid rgba(26,107,60,0.2);border-radius:8px;padding:9px 12px;margin-top:9px;font-size:12px;}
@@ -1549,18 +1549,17 @@
         <div class="btags"><span class="btag">✅ 2일권 활용</span><span class="btag">✅ e-비녜트</span><span class="btag">📌 한인마트 장보기 목록</span></div>
       </div>
       <div class="dc">
-        <div class="dchd"><div class="dcnum">9</div><div><div class="dcdate">6월 10일 (수)</div><div class="dccat">블레드 여유일 — 호수 산책 · 보트 · 섬 성당</div></div></div>
-        <span class="badge b-nat">🛶 블레드 (여유)</span>
-        <div class="irow"><span class="iico">🍽️</span><span class="ilbl">식사</span><span class="itxt">숙소 늦은 아침 / 호숫가 점심 / 숙소 저녁 (해먹기)</span></div>
+        <div class="dchd"><div class="dcnum">9</div><div><div class="dcdate">6월 10일 (수)</div><div class="dccat">☔ 우천 — 블레드 호수 잠깐만 (보트·섬은 6/11로 이월)</div></div></div>
+        <span class="badge b-nat">🌧️ 블레드 (비 · 휴식)</span>
+        <div class="irow"><span class="iico">🍽️</span><span class="ilbl">식사</span><span class="itxt">숙소 늦은 아침 / 블레드 점심(€60.93) / 숙소 저녁 (해먹기)</span></div>
         <div class="sched"><ul>
-          <li>😴 늦은 아침 — 전날 장거리 회복</li>
-          <li>블레드 호숫가 평지 산책 (Spa Park ↔ Mlino)</li>
-          <li>오후 🛶 <strong>플레트나 보트 → 블레드 섬</strong> — 성모승천 성당 · 소원의 종 (여유 진행)</li>
-          <li>🍰 Park 카페 <strong>원조 크림케이크</strong> (호수 테라스)</li>
-          <li>Mercator/Spar 장보기 · 숙소 저녁</li>
+          <li>✅ <strong>실제</strong> — 비가 많이 와서 <strong>블레드 호수만 잠깐</strong> 둘러보고 복귀·휴식</li>
+          <li>🛒 마트 장보기(€15.37) · 숙소 저녁</li>
+          <li>➡️ <strong>플레트나 보트·블레드 섬 성당·소원의 종 → 6/11로 이월</strong></li>
+          <li>🍰 (이월) Park 카페 원조 크림케이크는 6/11 섬 일정과 함께</li>
         </ul></div>
-        <div class="tip">🌧️ 보트는 날씨 영향 — 비 예보면 <strong>마른 시간대로 앞당기거나 6/11 오전과 맞교체</strong>. 우천 백업은 아래 표.</div>
-        <div class="btags"><span class="btag">📌 보트 현장 탑승 OK</span><span class="btag">📌 블레드 성은 내일</span></div>
+        <div class="tip grn">✅ <strong>오늘은 비로 가볍게 마무리</strong>. 못 한 <strong>블레드 섬(성당·소원의 종)</strong>은 내일(6/11) 오후 코스에 넣었어요.</div>
+        <div class="btags"><span class="btag">☔ 우천 휴식</span><span class="btag">➡️ 섬은 6/11로</span></div>
       </div>
       <div class="dc">
         <div class="dchd"><div class="dcnum">10</div><div><div class="dcdate">6월 11일 (목)</div><div class="dccat">보힌 자연(사비차 폭포·모스트니카 협곡) → 블레드 섬 성당·소원의 종 (오늘 못 한 섬 만회)</div></div></div>
