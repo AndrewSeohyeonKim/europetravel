@@ -2346,7 +2346,7 @@ window.addEventListener('load',function(){
           <tr class="key" style="background:rgba(192,57,43,0.06);"><td><strong>⑥</strong></td><td>✈️ <strong>출국</strong> — 두 분 귀국 · Andrew 더블린 복귀</td><td>OZ582 T1 22:00(조부모) · FR7800 T1 23:25(Andrew)</td></tr>
         </tbody>
       </table>
-      <div class="tip pur">💶 <strong>마지막 날 지출 €187.91</strong> — Lindt €79.83 · 점심 €45 · 연료 €25 · 산타 카테리나 입장 €14 · 🍷 숙소 주인 할머니께 드린 와인 선물 €14.80 · 통행료 €7.10 · 주차 €2.18. (예산 페이지 최종 정산에 반영 완료 ✅)</div>
+      <div class="tip pur">💶 <strong>마지막 날 지출 €255.91</strong> — Lindt €79.83 · 점심 €45 · 연료 €25 · 산타 카테리나 입장 €14 · 🍷 주인 할머니 와인 €14.80 · 통행료 €7.10 · 주차 €2.18 · 🚕 공항→집 택시 €50 · 공항 저녁 €18. (예산 페이지 최종 정산에 반영 완료 ✅)</div>
 
       <!-- ⛪ 평일 미사 -->
       <div class="dd-h" style="margin:30px 0 12px;display:flex;align-items:center;gap:9px;"><span style="font-size:18px;">⛪</span><h3 style="font-size:16px;font-weight:700;color:var(--ink);margin:0;">평일 미사 (화 6/16) — 사크로 몬테 16:45 추천</h3></div>
@@ -2586,14 +2586,14 @@ window.addEventListener('load',function(){
         <div class="bhst-sub">항공·숙소 €3,594 (6,420,000원) + 현장 현금 €6,250 (11,022,769원)</div>
       </div>
       <div class="bhst bhst-onsite">
-        <div class="bhst-lbl">현장 현금 — 환전 → 지출</div>
-        <div class="bhst-val">€6,250 → €6,249.28</div>
-        <div class="bhst-sub">여행경비 계좌 · 122건 · 잔액 €0.72</div>
+        <div class="bhst-lbl">현장 총지출 (124건)</div>
+        <div class="bhst-val" style="color:#ffb3a3;">−€6,317.28</div>
+        <div class="bhst-sub">통장 122건 €6,249.28 + 최종 추가 2건(택시·저녁) €68</div>
       </div>
       <div class="bhst bhst-onsite">
-        <div class="bhst-lbl">남은 잔액</div>
-        <div class="bhst-val">€0.72</div>
-        <div class="bhst-sub">시작 €2,000 + 충전 €4,250 − 지출 €6,249.28</div>
+        <div class="bhst-lbl">최종 잔액</div>
+        <div class="bhst-val" style="color:#ffb3a3;">−€67.28</div>
+        <div class="bhst-sub">환전 €6,250 − 지출 €6,317.28 (€67.28 초과)</div>
       </div>
     </div>
   </section>
@@ -2635,7 +2635,7 @@ window.addEventListener('load',function(){
       <h2 class="stitle">📊 한눈에 보는 지출</h2>
       <div class="chartgrid">
         <div class="chartcard">
-          <div class="chartttl">카테고리별 지출 (€6,249.28)</div>
+          <div class="chartttl">카테고리별 지출 (€6,317.28)</div>
           <div class="chartwrap"><canvas id="catChart"></canvas></div>
         </div>
         <div class="chartcard">
@@ -2655,12 +2655,12 @@ window.addEventListener('load',function(){
     <div class="section">
       <p class="slbl">All Transactions · 현장 지출 전체</p>
       <h2 class="stitle">🧾 현장 지출 전체 내역 — 아일랜드 + 발칸·알프스 통합</h2>
-      <p class="sdesc">여행경비 계좌(EUR)의 <strong>모든 거래 122건</strong>을 통장 내역 그대로 한 번에 정리했습니다. 합계 <strong>€6,249.28</strong> — 시작 €2,000 + 충전 €4,250 = €6,250에서 거의 전액을 쓰고 <strong>잔액 €0.72</strong>로 정확히 맞아떨어집니다. 아래 버튼으로 카테고리를 골라 볼 수 있어요. (🇮🇪 아일랜드 5/23~6/1 · 🌍 발칸·알프스 6/2~6/16)</p>
+      <p class="sdesc">현장에서 쓴 <strong>모든 지출 124건</strong>을 한 번에 정리했습니다(통장 거래 122건 + 최종 추가 2건 — 공항 택시·저녁). 합계 <strong>€6,317.28</strong> — 시작 €2,000 + 충전 €4,250 = €6,250보다 <strong>€67.28를 더 써서 최종 −€67.28</strong>입니다. 아래 버튼으로 카테고리를 골라 볼 수 있어요. (🇮🇪 아일랜드 5/23~6/1 · 🌍 발칸·알프스 6/2~6/16)</p>
 
       <div class="fbar">
-<button class="fbtn active" data-f="all" onclick="filterTx(this,'all')">전체 <span class="fbn">122건</span></button>
-<button class="fbtn" data-f="food" onclick="filterTx(this,'food')" style="--cc:#1A6B3C">🍽️ 식비 <span class="fbn">45건 · €1,959.01</span></button>
-<button class="fbtn" data-f="transport" onclick="filterTx(this,'transport')" style="--cc:#1B4F72">⛽ 교통·주차 <span class="fbn">51건 · €1,208.37</span></button>
+<button class="fbtn active" data-f="all" onclick="filterTx(this,'all')">전체 <span class="fbn">124건</span></button>
+<button class="fbtn" data-f="food" onclick="filterTx(this,'food')" style="--cc:#1A6B3C">🍽️ 식비 <span class="fbn">46건 · €1,977.01</span></button>
+<button class="fbtn" data-f="transport" onclick="filterTx(this,'transport')" style="--cc:#1B4F72">⛽ 교통·주차 <span class="fbn">52건 · €1,258.37</span></button>
 <button class="fbtn" data-f="sightseeing" onclick="filterTx(this,'sightseeing')" style="--cc:#6B3FA0">🎫 관광·입장 <span class="fbn">10건 · €869.90</span></button>
 <button class="fbtn" data-f="rental" onclick="filterTx(this,'rental')" style="--cc:#B03A2E">🚗 렌터카 <span class="fbn">2건 · €1,717.88</span></button>
 <button class="fbtn" data-f="shopping" onclick="filterTx(this,'shopping')" style="--cc:#C0622D">🛍️ 쇼핑 <span class="fbn">3건 · €127.41</span></button>
@@ -2792,9 +2792,11 @@ window.addEventListener('load',function(){
 <tr class="txr" data-cat="transport" data-region="bk"><td class="txd">6/16 <span class="txreg">🌍</span></td><td class="txl">Fuel · 주유</td><td class="txc"><span class="catbadge" style="--cc:#1B4F72">⛽ 교통·주차</span></td><td class="txa">€25.00</td></tr>
 <tr class="txr" data-cat="transport" data-region="bk"><td class="txd">6/16 <span class="txreg">🌍</span></td><td class="txl">Toll · 통행료</td><td class="txc"><span class="catbadge" style="--cc:#1B4F72">⛽ 교통·주차</span></td><td class="txa">€1.90</td></tr>
 <tr class="txr" data-cat="transport" data-region="bk"><td class="txd">6/16 <span class="txreg">🌍</span></td><td class="txl">Toll · 통행료</td><td class="txc"><span class="catbadge" style="--cc:#1B4F72">⛽ 교통·주차</span></td><td class="txa">€3.50</td></tr>
+<tr class="txr" data-cat="transport" data-region="bk"><td class="txd">6/16 <span class="txreg">🌍</span></td><td class="txl">Taxi · 공항→집 택시 (최종)</td><td class="txc"><span class="catbadge" style="--cc:#1B4F72">⛽ 교통·주차</span></td><td class="txa">€50.00</td></tr>
+<tr class="txr" data-cat="food" data-region="bk"><td class="txd">6/16 <span class="txreg">🌍</span></td><td class="txl">공항 저녁 (최종)</td><td class="txc"><span class="catbadge" style="--cc:#1A6B3C">🍽️ 식비</span></td><td class="txa">€18.00</td></tr>
         </tbody>
         <tfoot>
-          <tr class="grand"><td colspan="3" style="text-align:right;" id="txsumlbl">🧾 전체 합계 (122건) →</td><td class="num" id="txsum">€6,249.28</td></tr>
+          <tr class="grand"><td colspan="3" style="text-align:right;" id="txsumlbl">🧾 전체 합계 (124건) →</td><td class="num" id="txsum">€6,317.28</td></tr>
         </tfoot>
       </table>
     </div>
@@ -2806,13 +2808,15 @@ window.addEventListener('load',function(){
       <p class="slbl">Final Settlement · 최종 결산</p>
       <h2 class="stitle">🎯 최종 정산 — 환전 vs 실지출 vs 잔액</h2>
       <table class="btbl" style="margin-bottom:18px;">
-        <thead><tr><th>여행경비 계좌 (현장 현금)</th><th class="num" style="width:26%;">금액 (EUR)</th></tr></thead>
+        <thead><tr><th>여행경비 정산 (현장 현금, EUR)</th><th class="num" style="width:26%;">금액 (EUR)</th></tr></thead>
         <tbody>
-          <tr class="detail"><td><span class="item-name">시작 시드머니 (5/23)</span></td><td class="num" style="color:var(--confirmed);">€2,000.00</td></tr>
+          <tr class="detail"><td><span class="item-name">시작 시드머니 (5/23)</span></td><td class="num" style="color:var(--confirmed);">+€2,000.00</td></tr>
           <tr class="detail"><td><span class="item-name">충전 합계 (6/1·6/8·6/13)</span></td><td class="num" style="color:var(--confirmed);">+€4,250.00</td></tr>
           <tr class="subtotal"><td style="text-align:right;">💱 총 가용액 (총 환전) →</td><td class="num">€6,250.00</td></tr>
-          <tr class="detail"><td><span class="item-name">실제 지출 (122건)</span></td><td class="num" style="color:var(--alert);">−€6,249.28</td></tr>
-          <tr class="grand"><td style="text-align:right;">💶 최종 잔액 →</td><td class="num">€0.72</td></tr>
+          <tr class="detail"><td><span class="item-name">통장 지출 (122건)</span></td><td class="num" style="color:var(--alert);">−€6,249.28</td></tr>
+          <tr class="detail"><td><span class="item-name">최종 추가 지출 — 공항 택시 €50 + 공항 저녁 €18</span><span class="item-meta">6/16</span></td><td class="num" style="color:var(--alert);">−€68.00</td></tr>
+          <tr class="subtotal"><td style="text-align:right;">🧾 총 지출 (124건) →</td><td class="num" style="color:var(--alert);">−€6,317.28</td></tr>
+          <tr class="grand"><td style="text-align:right;">💶 최종 잔액 (€6,250 − €6,317.28) →</td><td class="num" style="color:var(--alert);">−€67.28</td></tr>
         </tbody>
       </table>
 
@@ -2821,21 +2825,11 @@ window.addEventListener('load',function(){
         <thead><tr><th>구분</th><th class="num" style="width:28%;">금액 (KRW)</th></tr></thead>
         <tbody>
           <tr class="detail"><td><span class="item-name">✈️ 항공·숙소 선결제</span><span class="item-meta">신한카드 2,702,600원 + 환전 6,420,000원</span></td><td class="num">9,122,600원</td></tr>
-          <tr class="detail"><td><span class="item-name">🧾 현장 경비 환전 (전액 사용)</span><span class="item-meta">€6,250 충전 · 122건 지출 · 잔액 €0.72</span></td><td class="num">11,022,769원</td></tr>
-          <tr class="grand"><td style="text-align:right;">💰 최종 총 여행 비용 →</td><td class="num">20,145,369원</td></tr>
+          <tr class="detail"><td><span class="item-name">🧾 현장 경비 환전</span><span class="item-meta">€6,250 환전 (지출 €6,317.28 → EUR 계좌 −€67.28)</span></td><td class="num">11,022,769원</td></tr>
+          <tr class="grand"><td style="text-align:right;">💰 환전·결제한 원화 합계 →</td><td class="num">20,145,369원</td></tr>
         </tbody>
       </table>
-
-      <h3 style="font-size:17px;font-weight:700;color:var(--ink);margin:28px 0 12px;">🙋 개인 추가 지출 <span style="font-size:12px;font-weight:600;color:var(--warm-grey);">(Andrew 개인 부담 · 여행경비 계좌 외)</span></h3>
-      <table class="btbl">
-        <thead><tr><th>항목</th><th class="num" style="width:26%;">금액 (EUR)</th></tr></thead>
-        <tbody>
-          <tr class="detail"><td><span class="item-name">공항 → 집 택시</span><span class="pill-onsite">개인</span><span class="item-meta">6/16 귀가 · 개인 카드</span></td><td class="num">€50.00</td></tr>
-          <tr class="detail"><td><span class="item-name">공항 저녁</span><span class="pill-onsite">개인</span><span class="item-meta">6/16 · 개인 카드</span></td><td class="num">€18.00</td></tr>
-          <tr class="grand"><td style="text-align:right;">🙋 개인 추가 지출 소계 (2건) →</td><td class="num">€68.00</td></tr>
-        </tbody>
-      </table>
-      <p style="font-size:12.5px;color:var(--warm-grey);margin-top:8px;">※ 위 €68은 여행경비 공동계좌가 아닌 <strong>Andrew 개인 부담</strong>으로, 계좌 잔액 €0.72에는 영향을 주지 않습니다.</p>
+      <p style="font-size:12.5px;color:var(--warm-grey);margin-top:8px;">※ 환전한 €6,250보다 €67.28를 더 써서 EUR 계좌는 <strong>−€67.28</strong>입니다(위 원화는 실제 환전·결제한 금액 기준).</p>
     </div>
 
   </div>
@@ -2883,10 +2877,10 @@ function filterTx(btn,cat){
 (function(){
   var charts=[], built=false;
   var catL=['식비','교통·주차','렌터카','관광·입장','쇼핑','기타'];
-  var catV=[1959.01,1208.37,1717.88,869.90,127.41,366.71];
+  var catV=[1977.01,1258.37,1717.88,869.90,127.41,366.71];
   var catC=['#1A6B3C','#1B4F72','#B03A2E','#6B3FA0','#C0622D','#9A8C78'];
   var dayL=['5/23','5/24','5/25','5/26','5/27','5/28','5/29','5/30','5/31','6/1','6/2','6/3','6/4','6/5','6/6','6/7','6/8','6/9','6/10','6/11','6/12','6/13','6/14','6/15','6/16'];
-  var dayV=[80,87,370.60,222.50,154.65,183,94.85,94.25,29.51,280.50,1891.97,366.38,64.50,66.10,295.20,153.21,106.24,170.99,508.00,166.95,148.26,167.75,113.30,245.66,187.91];
+  var dayV=[80,87,370.60,222.50,154.65,183,94.85,94.25,29.51,280.50,1891.97,366.38,64.50,66.10,295.20,153.21,106.24,170.99,508.00,166.95,148.26,167.75,113.30,245.66,255.91];
   var dayReg=dayL.map(function(d,i){return i<=9;}); // true=아일랜드(5/23~6/1)
   function euro(v){return '€'+Number(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
   function build(){
@@ -2897,11 +2891,11 @@ function filterTx(btn,cat){
     charts.push(new Chart(document.getElementById('catChart'),{type:'doughnut',
       data:{labels:catL,datasets:[{data:catV,backgroundColor:catC,borderWidth:2,borderColor:'#fff'}]},
       options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:11},padding:10}},
-        tooltip:{callbacks:{label:function(c){return c.label+': '+euro(c.raw)+' ('+(c.raw/6249.28*100).toFixed(1)+'%)';}}}}}}));
+        tooltip:{callbacks:{label:function(c){return c.label+': '+euro(c.raw)+' ('+(c.raw/6317.28*100).toFixed(1)+'%)';}}}}}}));
     charts.push(new Chart(document.getElementById('regionChart'),{type:'doughnut',
-      data:{labels:['🇮🇪 아일랜드 (5/23~6/1)','🌍 발칸·알프스 (6/2~6/16)'],datasets:[{data:[1596.86,4652.42],backgroundColor:['#2C7A6B','#C0622D'],borderWidth:2,borderColor:'#fff'}]},
+      data:{labels:['🇮🇪 아일랜드 (5/23~6/1)','🌍 발칸·알프스 (6/2~6/16)'],datasets:[{data:[1596.86,4720.42],backgroundColor:['#2C7A6B','#C0622D'],borderWidth:2,borderColor:'#fff'}]},
       options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:10}},
-        tooltip:{callbacks:{label:function(c){return euro(c.raw)+' ('+(c.raw/6249.28*100).toFixed(1)+'%)';}}}}}}));
+        tooltip:{callbacks:{label:function(c){return euro(c.raw)+' ('+(c.raw/6317.28*100).toFixed(1)+'%)';}}}}}}));
     charts.push(new Chart(document.getElementById('dayChart'),{type:'bar',
       data:{labels:dayL,datasets:[{data:dayV,backgroundColor:dayReg.map(function(b){return b?'#2C7A6B':'#C0622D';}),borderRadius:3}]},
       options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},
